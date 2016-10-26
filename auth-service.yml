@@ -1,0 +1,71 @@
+spring:
+  profiles:
+    active: development
+---
+spring:
+  profiles: cloud
+  jpa:
+    show_sql: true
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: validate
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-kb.cfapps.io/eureka/
+  instance:
+    hostname: users-kb.cfapps.io
+    nonSecurePort: 80
+ribbon:
+  eureka:
+    enabled: true
+---
+application:
+  name: movie
+spring:
+  profiles: lattice
+  jpa:
+    show_sql: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    platform: hsqldb
+server:
+  port: 9006
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+  instance:
+    hostname: ${vcap.application.uris[0]:localhost:9006}
+    nonSecurePort: 80
+ribbon:
+  eureka:
+    enabled: true
+---
+spring:
+  profiles: development
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: validate
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: eureka-service
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka-service:${server.port}/eureka/
+
+spring:
+    cloud:
+        config:
+            discovery:
+                enabled: true
+ribbon:
+  eureka:
+enabled: false
