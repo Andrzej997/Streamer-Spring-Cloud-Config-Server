@@ -11,7 +11,7 @@ spring:
         enabled: true
       server:
         git:
-          uri: https://github.com/kbastani/spring-boot-microservice-config
+          uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
         health:
           repositories:
             movie:
@@ -45,7 +45,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/kbastani/spring-boot-microservice-config
+          uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
         health:
           repositories:
             movie:
@@ -82,7 +82,7 @@ spring:
         enabled: true
       server:
         git:
-          uri: https://github.com/kbastani/spring-boot-microservice-config
+          uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
         health:
           repositories:
             movie:
