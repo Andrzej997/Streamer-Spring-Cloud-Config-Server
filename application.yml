@@ -28,6 +28,8 @@ eureka:
   instance:
     hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
     nonSecurePort: 80
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     serviceUrl:
       defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
@@ -44,6 +46,8 @@ eureka:
   instance:
     nonSecurePort: 80
     preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     serviceUrl:
         defaultZone: http://${EUREKA_1_PORT_8761_TCP_ADDR:localhost}:8761/eureka/
@@ -53,13 +57,15 @@ spring:
   profiles: development
   cloud:
     config:
-      uri: http://${CONFIGSERVER_1_PORT_8888_TCP_ADDR:localhost}:8888
+      uri: http://localhost:8888
 endpoints:
   restart: enabled
 eureka:
   instance:
     nonSecurePort: 80
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
     preferIpAddress: true
   client:
     serviceUrl:
-        defaultZone: http://${EUREKA_1_PORT_8761_TCP_ADDR:localhost}:8761/eureka/
+        defaultZone: http://localhost:8761/eureka/

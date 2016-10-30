@@ -29,13 +29,15 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: config-99.cfapps.io
+    hostname: http://config-server-mateuszsojka.cfapps.io/
     nonSecurePort: 80
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://discovery-kb.cfapps.io/eureka/
+      defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
 
 ---
 
@@ -62,6 +64,8 @@ endpoints:
 eureka:
   instance:
     hostname: config-server
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -70,25 +74,23 @@ eureka:
 service:
   definition:
     metadata:
-        uri: http://${spring.application.name}.${application.domain:cfapps.io}
+        uri: http://${spring.application.name}-mateuszsojka.${application.domain:cfapps.io}
+
+---
 
 ---
 
 spring:
-  profiles: lattice
+  profiles: docker
   cloud:
     config:
-      discovery:
-        enabled: true
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
         health:
           repositories:
             movie:
-              label: lattice
-            rating:
-              label: lattice
+              label: master
 server:
   port: 8888
 endpoints:
@@ -100,10 +102,12 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: ${vcap.application.uris[0]:localhost:8888}
-    nonSecurePort: 80
+    hostname: config-server
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-defaultZone: http://discovery.54.149.244.237.xip.io/eureka/
+      defaultZone: http://eureka-service:8761/eureka/
+---

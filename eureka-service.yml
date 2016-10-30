@@ -20,12 +20,16 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: discovery
+    hostname: eureka-service
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://discovery-kb.cfapps.io/eureka/
+      defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
+  server:
+    enable-self-preservation: false
 
 ---
 
@@ -43,8 +47,38 @@ endpoints:
 eureka:
   instance:
     hostname: discovery
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    enable-self-preservation: false
+
+---
+
+spring:
+  profiles: docker
+server:
+  port: 8761
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+eureka:
+  instance:
+    hostname: discovery
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
+  server:
+    enable-self-preservation: false

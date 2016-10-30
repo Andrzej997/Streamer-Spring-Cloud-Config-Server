@@ -14,7 +14,7 @@ eureka:
     serviceUrl:
       defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
   instance:
-    hostname: http://users-service-mateuszsojka.cfapps.io/
+    hostname: http://ebook-service-mateuszsojka.cfapps.io/
     nonSecurePort: 80
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
@@ -29,11 +29,11 @@ spring:
     hibernate:
       ddl-auto: none
 server:
-  port: 9000
+  port: 9002
 
 eureka:
   instance:
-    hostname: auth-service
+    hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
@@ -58,11 +58,11 @@ spring:
     hibernate:
       ddl-auto: none
 server:
-  port: 9000
+  port: 9002
 
 eureka:
   instance:
-    hostname: auth-service
+    hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
