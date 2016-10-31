@@ -1,6 +1,3 @@
-spring:
-  profiles:
-    active: development
 ---
 
 spring:
@@ -48,10 +45,13 @@ spring:
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
+          clone-on-start: true
         health:
           repositories:
             movie:
               label: master
+      discovery:
+        enabled: true
 server:
   port: 8888
 endpoints:
@@ -75,11 +75,13 @@ service:
   definition:
     metadata:
         uri: http://${spring.application.name}-mateuszsojka.${application.domain:cfapps.io}
+encrypt:
+  failOnError: false
+logging:
+  file: log.txt
+  level: error
 
 ---
-
----
-
 spring:
   profiles: docker
   cloud:
@@ -87,10 +89,13 @@ spring:
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
+          clone-on-start: true
         health:
           repositories:
             movie:
               label: master
+      discovery:
+        enabled: true
 server:
   port: 8888
 endpoints:
@@ -110,4 +115,9 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
+encrypt:
+  failOnError: false
+logging:
+  file: log.txt
+  level: error
 ---
