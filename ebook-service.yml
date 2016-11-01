@@ -1,4 +1,5 @@
 ---
+
 spring:
   profiles: cloud
   jpa:
@@ -18,12 +19,17 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+
 ---
+
 spring:
   profiles: development
+  cloud:
+    config:
+      discovery:
+        enabled: true
 server:
   port: 9002
-
 eureka:
   instance:
     hostname: ebook-service
@@ -33,12 +39,6 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-
-spring:
-    cloud:
-        config:
-            discovery:
-                enabled: true
 ribbon:
   eureka:
     enabled: false
@@ -49,11 +49,15 @@ logging:
   level: error
 
 ---
+
 spring:
   profiles: docker
+  cloud:
+    config:
+      discovery:
+        enabled: true
 server:
   port: 9002
-
 eureka:
   instance:
     hostname: ebook-service
@@ -63,12 +67,6 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
-
-spring:
-    cloud:
-        config:
-            discovery:
-                enabled: true
 ribbon:
   eureka:
     enabled: false
@@ -77,3 +75,5 @@ encrypt:
 logging:
   file: log.txt
   level: error
+
+---
