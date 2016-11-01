@@ -21,18 +21,6 @@ ribbon:
 ---
 spring:
   profiles: development
-  jpa:
-    show_sql: true
-    database: POSTGRESQL
-    hibernate:
-      ddl-auto: none
-  datasource:
-      url: jdbc:postgresql://localhost:5432/imagedb
-      username: sysadm
-      password: sysadm
-      driver-class-name: org.postgresql.Driver
-      auto-commit: true
-      connection-timeout: 1000
 server:
   port: 9004
 
@@ -63,18 +51,6 @@ logging:
 ---
 spring:
   profiles: docker
-  jpa:
-    show_sql: true
-    database: POSTGRESQL
-    hibernate:
-      ddl-auto: none
-  datasource:
-      url: jdbc:postgresql://172.17.0.5:5432/imagedb
-      username: sysadm
-      password: sysadm
-      driver-class-name: org.postgresql.Driver
-      auto-commit: true
-      connection-timeout: 1000
 server:
   port: 9004
 
