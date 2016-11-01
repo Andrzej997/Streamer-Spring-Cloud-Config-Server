@@ -1,6 +1,8 @@
 ---
 spring:
   profiles: cloud
+  application:
+    name: eureka-service
   cloud:
     config:
       serviceId: config-server
@@ -23,6 +25,8 @@ eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
+    healthcheck:
+      enabled: true
     serviceUrl:
       defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
   server:
@@ -32,6 +36,8 @@ eureka:
 
 spring:
   profiles: development
+  application:
+    name: eureka-service
   cloud:
     config:
       serviceId: config-server
@@ -48,10 +54,12 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: discovery
+    hostname: eureka-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
+    healthcheck:
+      enabled: true
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
@@ -63,6 +71,8 @@ eureka:
 
 spring:
   profiles: docker
+  application:
+    name: eureka-service
   cloud:
     config:
       serviceId: config-server
@@ -79,10 +89,12 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: discovery
+    hostname: eureka-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
+    healthcheck:
+      enabled: true
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
