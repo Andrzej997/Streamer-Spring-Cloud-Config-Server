@@ -8,6 +8,7 @@ spring:
       serviceId: config-server
       discovery:
         enabled: true
+      uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
 server:
   port: 8761
 endpoints:
@@ -19,7 +20,7 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: eureka-service
+    hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
@@ -28,7 +29,7 @@ eureka:
     healthcheck:
       enabled: true
     serviceUrl:
-      defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
+      defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
   server:
     enable-self-preservation: false
 

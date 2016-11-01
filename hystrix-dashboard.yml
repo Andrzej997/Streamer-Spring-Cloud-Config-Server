@@ -1,24 +1,19 @@
 ---
 spring:
   profiles: development
-  
 info:
   component: Hystrix Dashboard
-
 endpoints:
   restart:
     enabled: true
   shutdown:
     enabled: true
-
 server:
   port: 7979
-
 logging:
   level:
     ROOT: INFO
     org.springframework.web: DEBUG
-
 eureka:
   client:
     region: default
@@ -29,28 +24,22 @@ eureka:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
 virtualHostName: ${spring.application.name}
-
 ---
 spring:
   profiles: docker
-
 info:
   component: Hystrix Dashboard
-
 endpoints:
   restart:
     enabled: true
   shutdown:
     enabled: true
-
 server:
   port: 7979
-
 logging:
   level:
     ROOT: INFO
     org.springframework.web: DEBUG
-
 eureka:
   client:
     region: default

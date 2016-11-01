@@ -2,6 +2,8 @@
 
 spring:
   profiles: cloud
+  application:
+    name: config-server
   cloud:
     config:
       discovery:
@@ -10,12 +12,6 @@ spring:
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
-        health:
-          repositories:
-            movie:
-              label: master
-            rating:
-              label: master
 server:
   port: 8888
 endpoints:
@@ -27,7 +23,7 @@ endpoints:
     sensitive: false
 eureka:
   instance:
-    hostname: http://config-server-mateuszsojka.cfapps.io/
+    hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
     nonSecurePort: 80
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
@@ -35,7 +31,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
+      defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
 
 ---
 

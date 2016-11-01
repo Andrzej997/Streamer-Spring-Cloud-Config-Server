@@ -1,10 +1,13 @@
 ---
 spring:
   profiles: cloud
+  application:
+    name: image-service
   cloud:
     config:
       discovery:
         enabled: true
+      uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
   jpa:
     show_sql: true
     database: POSTGRESQL
@@ -13,9 +16,9 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka-service-mateuszsojka.cfapps.io/eureka/
+      defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
   instance:
-    hostname: http://image-service-mateuszsojka.cfapps.io/
+    hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
     nonSecurePort: 80
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
