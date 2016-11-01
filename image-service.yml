@@ -1,6 +1,10 @@
 ---
 spring:
   profiles: cloud
+  cloud:
+    config:
+      discovery:
+        enabled: true
   jpa:
     show_sql: true
     database: POSTGRESQL
@@ -18,12 +22,17 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+
 ---
+
 spring:
   profiles: development
+  cloud:
+    config:
+      discovery:
+        enabled: true
 server:
   port: 9004
-
 eureka:
   instance:
     hostname: image-service
@@ -33,12 +42,6 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-
-spring:
-    cloud:
-        config:
-            discovery:
-                enabled: true
 ribbon:
   eureka:
     enabled: false
@@ -49,11 +52,15 @@ logging:
   level: error
 
 ---
+
 spring:
   profiles: docker
+  cloud:
+    config:
+      discovery:
+        enabled: true
 server:
   port: 9004
-
 eureka:
   instance:
     hostname: image-service
@@ -63,12 +70,6 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
-
-spring:
-    cloud:
-        config:
-            discovery:
-                enabled: true
 ribbon:
   eureka:
     enabled: false

@@ -6,6 +6,7 @@ spring:
     config:
       discovery:
         enabled: true
+        serviceId: config-server
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
@@ -52,6 +53,7 @@ spring:
               label: master
       discovery:
         enabled: true
+        serviceId: config-server
 server:
   port: 8888
 endpoints:
@@ -96,6 +98,7 @@ spring:
               label: master
       discovery:
         enabled: true
+        serviceId: config-server
 server:
   port: 8888
 endpoints:
