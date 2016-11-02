@@ -56,6 +56,9 @@ zuul:
     video-service:
       path: /video/**
       url: http://localhost:9008
+    hystrix-dashboard:
+      path: /hystrix/**
+      url: http://localhost:7979
 
 ---
 
@@ -114,3 +117,6 @@ zuul:
     video-service:
       path: /video/**
       url: http://video-service:9008
+    hystrix-dashboard:
+      path: /hystrix/**
+      url: http://hystrix-dashboard:7979

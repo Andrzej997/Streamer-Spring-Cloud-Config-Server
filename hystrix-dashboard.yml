@@ -1,6 +1,12 @@
 ---
 spring:
   profiles: development
+  application:
+    name: hystrix-dashboard
+  cloud:
+    config:
+      discovery:
+        enabled: true
 info:
   component: Hystrix Dashboard
 endpoints:
@@ -8,6 +14,8 @@ endpoints:
     enabled: true
   shutdown:
     enabled: true
+encrypt:
+  failOnError: false
 server:
   port: 7979
 logging:
@@ -15,18 +23,25 @@ logging:
     ROOT: INFO
     org.springframework.web: DEBUG
 eureka:
-  client:
-    region: default
-    preferSameZone: false
-    us-east-1:
-      availabilityZones: default
   instance:
+    hostname: hystrix-dashboard
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 virtualHostName: ${spring.application.name}
 ---
 spring:
   profiles: docker
+  application:
+    name: hystrix-dashboard
+  cloud:
+    config:
+      discovery:
+        enabled: true
 info:
   component: Hystrix Dashboard
 endpoints:
@@ -36,17 +51,20 @@ endpoints:
     enabled: true
 server:
   port: 7979
+encrypt:
+  failOnError: false
 logging:
   level:
     ROOT: INFO
     org.springframework.web: DEBUG
 eureka:
-  client:
-    region: default
-    preferSameZone: false
-    us-east-1:
-      availabilityZones: default
   instance:
+    hostname: hystrix-dashboard
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
 virtualHostName: ${spring.application.name}
