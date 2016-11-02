@@ -1,32 +1,4 @@
 ---
-spring:
-  profiles: cloud
-  application:
-    name: image-service
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
-  jpa:
-    show_sql: true
-    database: POSTGRESQL
-    hibernate:
-      ddl-auto: none
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
-  instance:
-    hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
-    nonSecurePort: 80
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
-ribbon:
-  eureka:
-    enabled: true
-
----
 
 spring:
   profiles: development
@@ -35,10 +7,19 @@ spring:
       discovery:
         enabled: true
 server:
-  port: 9004
+  port: 10000
+sidecar:
+  port: 8000
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
 eureka:
   instance:
-    hostname: image-service
+    hostname: api-gateway
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
@@ -64,10 +45,19 @@ spring:
       discovery:
         enabled: true
 server:
-  port: 9004
+  port: 10000
+sidecar:
+  port: 8000
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
 eureka:
   instance:
-    hostname: image-service
+    hostname: api-gateway
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
