@@ -58,6 +58,7 @@ eureka:
     hostname: eureka-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     healthcheck:
       enabled: true
@@ -93,6 +94,7 @@ eureka:
     hostname: eureka-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     healthcheck:
       enabled: true

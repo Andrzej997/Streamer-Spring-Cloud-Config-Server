@@ -30,6 +30,8 @@ ribbon:
 
 spring:
   profiles: development
+  application:
+    name: image-service
   cloud:
     config:
       discovery:
@@ -41,6 +43,7 @@ eureka:
     hostname: image-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -59,6 +62,8 @@ logging:
 
 spring:
   profiles: docker
+  application:
+    name: image-service
   cloud:
     config:
       discovery:
@@ -70,6 +75,7 @@ eureka:
     hostname: image-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true

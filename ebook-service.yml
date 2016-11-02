@@ -29,6 +29,8 @@ ribbon:
 
 spring:
   profiles: development
+  application:
+    name: ebook-service
   cloud:
     config:
       discovery:
@@ -40,6 +42,7 @@ eureka:
     hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -58,6 +61,8 @@ logging:
 
 spring:
   profiles: docker
+  application:
+    name: ebook-service
   cloud:
     config:
       discovery:
@@ -69,6 +74,7 @@ eureka:
     hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true

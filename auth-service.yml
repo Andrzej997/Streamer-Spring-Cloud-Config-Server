@@ -28,6 +28,8 @@ ribbon:
 
 spring:
   profiles: development
+  application:
+    name: auth-service
   cloud:
     config:
       discovery:
@@ -39,6 +41,7 @@ eureka:
     hostname: auth-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -57,6 +60,8 @@ logging:
 
 spring:
   profiles: docker
+  application:
+    name: auth-service
   cloud:
     config:
       discovery:
@@ -68,6 +73,7 @@ eureka:
     hostname: auth-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true

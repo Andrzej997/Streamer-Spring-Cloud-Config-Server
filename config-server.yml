@@ -37,16 +37,14 @@ eureka:
 
 spring:
   profiles: development
+  application:
+    name: config-server
   cloud:
     config:
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
           clone-on-start: true
-        health:
-          repositories:
-            movie:
-              label: master
       discovery:
         enabled: true
         serviceId: config-server
@@ -82,16 +80,14 @@ logging:
 ---
 spring:
   profiles: docker
+  application:
+    name: config-server
   cloud:
     config:
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
           clone-on-start: true
-        health:
-          repositories:
-            movie:
-              label: master
       discovery:
         enabled: true
         serviceId: config-server
@@ -109,6 +105,7 @@ eureka:
     hostname: config-server
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
