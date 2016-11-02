@@ -54,8 +54,6 @@ eureka:
   client:
     serviceUrl:
         defaultZone: http://eureka-service:8761/eureka/
-sidecar:
-  port: 8081
 ---
 spring:
   profiles: development
@@ -76,5 +74,3 @@ eureka:
   client:
     serviceUrl:
         defaultZone: http://localhost:8761/eureka/
-sidecar:
-  port: 8081

@@ -2,6 +2,8 @@
 
 spring:
   profiles: development
+  application:
+    name: api-gateway
   cloud:
     config:
       discovery:
@@ -9,7 +11,8 @@ spring:
 server:
   port: 10000
 sidecar:
-  port: 8081
+  port: 8000
+  health-uri: http://localhost:8000/health.json
 endpoints:
   restart:
     enabled: true
@@ -40,6 +43,8 @@ logging:
 
 spring:
   profiles: docker
+  application:
+    name: api-gateway
   cloud:
     config:
       discovery:
@@ -47,7 +52,8 @@ spring:
 server:
   port: 10000
 sidecar:
-  port: 8081
+  port: 8000
+  health-uri: http://localhost:8000/health.json
 endpoints:
   restart:
     enabled: true
