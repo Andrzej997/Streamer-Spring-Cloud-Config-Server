@@ -42,7 +42,6 @@ eureka:
     hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -74,7 +73,6 @@ eureka:
     hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true

@@ -43,7 +43,6 @@ eureka:
     hostname: image-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -75,7 +74,6 @@ eureka:
     hostname: image-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true

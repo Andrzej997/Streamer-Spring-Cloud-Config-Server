@@ -48,7 +48,6 @@ endpoints:
 eureka:
   instance:
     nonSecurePort: 80
-    preferIpAddress: true
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
@@ -70,7 +69,6 @@ eureka:
     nonSecurePort: 80
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    preferIpAddress: true
   client:
     serviceUrl:
         defaultZone: http://localhost:8761/eureka/
