@@ -86,6 +86,9 @@ encrypt:
 logging:
   file: log.txt
   level: error
+ribbon:
+  eureka:
+    enabled: false
 zuul:
   routes:
     auth-service:
