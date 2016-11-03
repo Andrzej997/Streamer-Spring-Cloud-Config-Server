@@ -91,18 +91,24 @@ zuul:
     auth-service:
       path: /auth/**
       serviceId: auth-service
+      url: http://auth-service:9000
     ebook-service:
       path: /ebook/**
       serviceId: ebook-service
+      url: http://ebook-service:9000
     image-service:
       path: /image/**
       serviceId: image-service
+      url: http://ebook-service:9000
     music-service:
       path: /music/**
       serviceId: music-service
+      url: http://ebook-service:9000
     video-service:
       path: /video/**
       serviceId: video-service
+      url: http://ebook-service:9000
     hystrix-dashboard:
       path: /hystrix/**
       serviceId: hystrix-dashboard
+      url: http://hystrix-dashboard:7979
