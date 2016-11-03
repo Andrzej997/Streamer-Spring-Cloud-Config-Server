@@ -63,13 +63,6 @@ server:
 sidecar:
   port: 8000
   health-uri: http://localhost:8000/health
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
 eureka:
   instance:
     hostname: api-gateway
@@ -81,11 +74,10 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
-encrypt:
-  failOnError: false
-logging:
-  file: log.txt
-  level: error
+    healthcheck:
+      enabled: true
+  server:
+    enable-self-preservation: false
 ribbon:
   eureka:
     enabled: false
