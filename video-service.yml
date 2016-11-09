@@ -34,6 +34,16 @@ spring:
     config:
       discovery:
         enabled: true
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: validate
+    database: POSTGRESQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/videodb
+    username: sysadm
+    password: sysadm
+    driver-class-name: org.postgresql.Driver
 server:
   port: 9008
 eureka:
@@ -65,6 +75,16 @@ spring:
     config:
       discovery:
         enabled: true
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: none
+    database: POSTGRESQL
+  datasource:
+    url: jdbc:postgresql://videodb:5432/videodb
+    username: sysadm
+    password: sysadm
+    driver-class-name: org.postgresql.Driver
 server:
   port: 9008
 
@@ -73,6 +93,7 @@ eureka:
     hostname: video-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    prefer-ip-address: true
   client:
     registerWithEureka: true
     fetchRegistry: true

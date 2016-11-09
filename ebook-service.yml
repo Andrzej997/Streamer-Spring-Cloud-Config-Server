@@ -35,6 +35,16 @@ spring:
     config:
       discovery:
         enabled: true
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: validate
+    database: POSTGRESQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ebookdb
+    username: sysadm
+    password: sysadm
+    driver-class-name: org.postgresql.Driver
 server:
   port: 9002
 eureka:
@@ -66,6 +76,16 @@ spring:
     config:
       discovery:
         enabled: true
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: none
+    database: POSTGRESQL
+  datasource:
+    url: jdbc:postgresql://ebookdb:5432/ebookdb
+    username: sysadm
+    password: sysadm
+    driver-class-name: org.postgresql.Driver
 server:
   port: 9002
 eureka:
@@ -73,6 +93,7 @@ eureka:
     hostname: ebook-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
