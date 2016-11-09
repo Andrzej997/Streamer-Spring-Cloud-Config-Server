@@ -46,6 +46,7 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     database: POSTGRESQL
   datasource:
+    initialize: false
     url: jdbc:postgresql://localhost:5432/imagedb
     username: sysadm
     password: sysadm
@@ -91,6 +92,7 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     database: POSTGRESQL
   datasource:
+    initialize: false
     url: jdbc:postgresql://imagedb:5432/imagedb
     username: sysadm
     password: sysadm

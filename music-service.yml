@@ -40,6 +40,7 @@ spring:
       ddl-auto: validate
     database: POSTGRESQL
   datasource:
+    initialize: false
     url: jdbc:postgresql://localhost:5432/musicdb
     username: sysadm
     password: sysadm
@@ -81,6 +82,7 @@ spring:
       ddl-auto: none
     database: POSTGRESQL
   datasource:
+    initialize: false
     url: jdbc:postgresql://musicdb:5432/musicdb
     username: sysadm
     password: sysadm
