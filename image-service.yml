@@ -13,6 +13,10 @@ spring:
     database: POSTGRESQL
     hibernate:
       ddl-auto: none
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
 eureka:
   client:
     serviceUrl:
@@ -51,6 +55,14 @@ spring:
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
+    tomcat:
+      default-auto-commit: false
+    dbcp:
+      default-auto-commit: false
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
 server:
   port: 9004
 eureka:
@@ -97,6 +109,14 @@ spring:
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
+    tomcat:
+      default-auto-commit: false
+    dbcp:
+      default-auto-commit: false
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
 server:
   port: 9004
 eureka:

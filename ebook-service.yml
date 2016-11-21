@@ -35,6 +35,10 @@ spring:
     config:
       discovery:
         enabled: true
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
   jpa:
     show_sql: true
     hibernate:
@@ -46,6 +50,10 @@ spring:
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
+    tomcat:
+      default-auto-commit: false
+    dbcp:
+      default-auto-commit: false
 server:
   port: 9002
 eureka:
@@ -73,6 +81,10 @@ spring:
   profiles: docker
   application:
     name: ebook-service
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
   cloud:
     config:
       discovery:
@@ -88,6 +100,10 @@ spring:
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
+    tomcat:
+      default-auto-commit: false
+    dbcp:
+      default-auto-commit: false
 server:
   port: 9002
 eureka:

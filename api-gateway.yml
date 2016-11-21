@@ -8,6 +8,10 @@ spring:
     config:
       discovery:
         enabled: true
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
 server:
   port: 8080
 sidecar:
@@ -58,6 +62,10 @@ spring:
     config:
       discovery:
         enabled: true
+  http:
+    multipart:
+      max-file-size: 25600MB
+      max-request-size: 32MB
 server:
   port: 8080
 sidecar:

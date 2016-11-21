@@ -8,6 +8,9 @@ spring:
     database: POSTGRESQL
     hibernate:
       ddl-auto: none
+  resources:
+    chain:
+      enabled: true
   cloud:
     config:
       uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
@@ -23,6 +26,10 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+jwt:
+  header: AuthHeader
+  key: e038394bc945eed83ca8797aae26fddfae91b175fc4dd26339dd6cb8066c65b892d6ac07c0a3c0384601896ade90551905460af66e4864e9c71a31d6d523c136
+  expiration: 36000
 
 ---
 
@@ -45,6 +52,9 @@ spring:
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
+  resources:
+    chain:
+      enabled: true
 server:
   port: 9000
 eureka:
@@ -65,7 +75,10 @@ encrypt:
 logging:
   file: log.txt
   level: error
-
+jwt:
+  header: AuthHeader
+  key: e038394bc945eed83ca8797aae26fddfae91b175fc4dd26339dd6cb8066c65b892d6ac07c0a3c0384601896ade90551905460af66e4864e9c71a31d6d523c136
+  expiration: 36000
 ---
 
 spring:
@@ -87,6 +100,9 @@ spring:
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
+  resources:
+    chain:
+      enabled: true
 server:
   port: 9000
 eureka:
@@ -108,5 +124,9 @@ encrypt:
 logging:
   file: log.txt
   level: error
+jwt:
+  header: AuthHeader
+  key: e038394bc945eed83ca8797aae26fddfae91b175fc4dd26339dd6cb8066c65b892d6ac07c0a3c0384601896ade90551905460af66e4864e9c71a31d6d523c136
+  expiration: 36000
 
 ---
