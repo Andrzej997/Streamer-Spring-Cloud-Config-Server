@@ -178,7 +178,6 @@ CREATE INDEX ON VIDEO_PLAYLISTS (USER_ID);
 
 CREATE SEQUENCE DEFAULTDBSEQ START 1;
 
-
 CREATE EXTENSION postgres_fdw;
 
 CREATE SERVER users_srv foreign data wrapper postgres_fdw OPTIONS 
@@ -196,3 +195,5 @@ create foreign table USERS (
   NATIONALITY VARCHAR(255),
   EMAIL       VARCHAR(1024) NOT NULL
 ) SERVER users_srv OPTIONS ( schema_name 'users_schema', table_name 'users' );
+
+CREATE OR REPLACE VIEW USERS_VIEW AS SELECT * FROM USERS;

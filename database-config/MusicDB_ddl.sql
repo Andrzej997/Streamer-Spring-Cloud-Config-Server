@@ -196,3 +196,5 @@ create foreign table USERS (
   EMAIL       VARCHAR(1024) NOT NULL
 ) SERVER users_srv OPTIONS ( schema_name 'users_schema', table_name 'users' );
 
+CREATE OR REPLACE VIEW USERS_VIEW AS SELECT * FROM USERS;
+
