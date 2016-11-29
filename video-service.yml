@@ -11,7 +11,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
   cloud:
     config:
       uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
@@ -56,7 +56,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
 server:
   port: 9008
 eureka:
@@ -106,7 +106,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
 server:
   port: 9008
 

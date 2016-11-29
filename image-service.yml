@@ -16,7 +16,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
 eureka:
   client:
     serviceUrl:
@@ -62,7 +62,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
 server:
   port: 9004
 eureka:

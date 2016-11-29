@@ -38,7 +38,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
   jpa:
     show_sql: true
     hibernate:
@@ -84,7 +84,7 @@ spring:
   http:
     multipart:
       max-file-size: 25600MB
-      max-request-size: 32MB
+      max-request-size: 25600MB
   cloud:
     config:
       discovery:
