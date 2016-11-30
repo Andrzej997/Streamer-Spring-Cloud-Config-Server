@@ -57,6 +57,9 @@ spring:
       enabled: true
 server:
   port: 9000
+  connection-timeout: -1
+  session:
+    timeout: 36000
 eureka:
   instance:
     hostname: auth-service
@@ -105,6 +108,9 @@ spring:
       enabled: true
 server:
   port: 9000
+  connection-timeout: -1
+  session:
+    timeout: 36000
 eureka:
   instance:
     hostname: auth-service

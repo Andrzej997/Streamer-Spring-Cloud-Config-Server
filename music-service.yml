@@ -59,6 +59,9 @@ spring:
       max-request-size: 25600MB
 server:
   port: 9006
+  connection-timeout: -1
+  session:
+    timeout: 36000
 eureka:
   instance:
     hostname: music-service
@@ -109,6 +112,9 @@ spring:
       max-request-size: 25600MB
 server:
   port: 9006
+  connection-timeout: -1
+  session:
+    timeout: 36000
 eureka:
   instance:
     hostname: music-service

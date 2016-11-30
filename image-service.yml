@@ -65,6 +65,9 @@ spring:
       max-request-size: 25600MB
 server:
   port: 9004
+  connection-timeout: -1
+  session:
+    timeout: 36000
 eureka:
   instance:
     hostname: image-service
@@ -119,6 +122,9 @@ spring:
       max-request-size: 32MB
 server:
   port: 9004
+  connection-timeout: -1
+  session:
+    timeout: 36000
 eureka:
   instance:
     hostname: image-service
