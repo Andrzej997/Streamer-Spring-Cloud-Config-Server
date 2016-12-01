@@ -59,9 +59,6 @@ spring:
       max-request-size: 25600MB
 server:
   port: 9008
-  connection-timeout: -1
-  session:
-    timeout: 36000
 eureka:
   instance:
     hostname: video-service
@@ -112,10 +109,6 @@ spring:
       max-request-size: 25600MB
 server:
   port: 9008
-  connection-timeout: -1
-  session:
-    timeout: 36000
-
 eureka:
   instance:
     hostname: video-service

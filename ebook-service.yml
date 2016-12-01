@@ -56,9 +56,6 @@ spring:
       default-auto-commit: false
 server:
   port: 9002
-  connection-timeout: -1
-  session:
-    timeout: 36000
 eureka:
   instance:
     hostname: ebook-service
@@ -109,9 +106,6 @@ spring:
       default-auto-commit: false
 server:
   port: 9002
-  connection-timeout: -1
-  session:
-    timeout: 36000
 eureka:
   instance:
     hostname: ebook-service

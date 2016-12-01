@@ -14,9 +14,6 @@ spring:
       max-request-size: 25600MB
 server:
   port: 8080
-  connection-timeout: -1
-  session:
-    timeout: 360000
 sidecar:
   port: 8000
   health-uri: http://localhost:8000/health
@@ -71,9 +68,6 @@ spring:
       max-request-size: 25600MB
 server:
   port: 8080
-  connection-timeout: -1
-  session:
-    timeout: 360000
 sidecar:
   port: 8000
   health-uri: http://localhost:8000/health
