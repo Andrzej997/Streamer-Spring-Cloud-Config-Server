@@ -31,7 +31,15 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+ribbon:
+  ReadTimeout: 18000000
+  ConnectTimeout: 18000000
+  eureka:
+    enabled: false
 zuul:
+  host:
+    connect-timeout-millis: 18000000
+    socket-timeout-millis: 18000000
   routes:
     auth-service:
       path: /auth/**
@@ -87,9 +95,14 @@ eureka:
   server:
     enable-self-preservation: false
 ribbon:
+  ReadTimeout: 18000000
+  ConnectTimeout: 18000000
   eureka:
     enabled: false
 zuul:
+  host:
+    connect-timeout-millis: 18000000
+    socket-timeout-millis: 18000000
   routes:
     auth-service:
       path: /auth/**

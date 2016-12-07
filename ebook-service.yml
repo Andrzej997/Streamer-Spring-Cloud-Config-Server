@@ -67,6 +67,8 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 ribbon:
+  ReadTimeout: 18000000
+  ConnectTimeout: 18000000
   eureka:
     enabled: false
 encrypt:
@@ -118,6 +120,8 @@ eureka:
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
 ribbon:
+  ReadTimeout: 18000000
+  ConnectTimeout: 18000000
   eureka:
     enabled: false
 encrypt:
