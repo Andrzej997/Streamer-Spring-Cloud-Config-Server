@@ -17,6 +17,7 @@ spring:
       uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
 eureka:
   client:
+    eureka-connection-idle-timeout-seconds: 3000
     serviceUrl:
       defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
   instance:
@@ -69,6 +70,7 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
+    eureka-connection-idle-timeout-seconds: 3000
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 ribbon:
@@ -122,6 +124,7 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
+    eureka-connection-idle-timeout-seconds: 3000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
 ribbon:
