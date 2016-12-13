@@ -113,19 +113,19 @@ zuul:
     ebook-service:
       path: /ebook/**
       serviceId: ebook-service
-      url: http://ebook-service:9000
+      url: http://ebook-service:9002
     image-service:
       path: /image/**
       serviceId: image-service
-      url: http://ebook-service:9000
+      url: http://ebook-service:9004
     music-service:
       path: /music/**
       serviceId: music-service
-      url: http://ebook-service:9000
+      url: http://ebook-service:9006
     video-service:
       path: /video/**
       serviceId: video-service
-      url: http://ebook-service:9000
+      url: http://ebook-service:9008
     hystrix-dashboard:
       path: /hystrix/**
       serviceId: hystrix-dashboard
