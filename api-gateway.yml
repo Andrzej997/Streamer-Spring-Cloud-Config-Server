@@ -60,7 +60,7 @@ zuul:
     hystrix-dashboard:
       path: /hystrix/**
       url: http://localhost:7979
-
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 6000000
 ---
 
 spring:
@@ -120,3 +120,4 @@ zuul:
     hystrix-dashboard:
       path: /hystrix/**
       serviceId: hystrix-dashboard
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 6000000
