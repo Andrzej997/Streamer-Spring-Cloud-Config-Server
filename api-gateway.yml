@@ -83,24 +83,20 @@ sidecar:
 eureka:
   instance:
     hostname: api-gateway
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
     preferIpAddress: true
   client:
-    registerWithEureka: true
+    registerWithEureka: false
     fetchRegistry: true
-    eureka-connection-idle-timeout-seconds: 3000
+    eureka-connection-idle-timeout-seconds: 6000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
     healthcheck:
       enabled: true
-  server:
-    enable-self-preservation: false
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
   eureka:
-    enabled: false
+    enabled: true
 zuul:
   host:
     connect-timeout-millis: 18000000
@@ -109,24 +105,18 @@ zuul:
     auth-service:
       path: /auth/**
       serviceId: auth-service
-      url: http://auth-service:9000
     ebook-service:
       path: /ebook/**
       serviceId: ebook-service
-      url: http://ebook-service:9002
     image-service:
       path: /image/**
       serviceId: image-service
-      url: http://image-service:9004
     music-service:
       path: /music/**
       serviceId: music-service
-      url: http://music-service:9006
     video-service:
       path: /video/**
       serviceId: video-service
-      url: http://video-service:9008
     hystrix-dashboard:
       path: /hystrix/**
       serviceId: hystrix-dashboard
-      url: http://hystrix-dashboard:7979

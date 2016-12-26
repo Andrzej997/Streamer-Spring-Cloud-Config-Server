@@ -141,7 +141,7 @@ ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
   eureka:
-    enabled: false
+    enabled: true
 encrypt:
   failOnError: false
 logging:
