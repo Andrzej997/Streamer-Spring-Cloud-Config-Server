@@ -105,6 +105,7 @@ zuul:
     auth-service:
       path: /auth/**
       serviceId: auth-service
+      url: http://auth-service:9000
     ebook-service:
       path: /ebook/**
       serviceId: ebook-service
