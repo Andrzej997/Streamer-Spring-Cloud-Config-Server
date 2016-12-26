@@ -84,9 +84,11 @@ eureka:
   instance:
     hostname: api-gateway
     preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 3
   client:
-    registerWithEureka: false
-    fetchRegistry: true
+    registryFetchIntervalSeconds: 5
+    instanceInfoReplicationIntervalSeconds: 5
+    initialInstanceInfoReplicationIntervalSeconds: 5
     eureka-connection-idle-timeout-seconds: 6000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
@@ -98,6 +100,7 @@ ribbon:
   eureka:
     enabled: true
 zuul:
+  ignoredServices: "*"
   host:
     connect-timeout-millis: 18000000
     socket-timeout-millis: 18000000
@@ -121,4 +124,27 @@ zuul:
     hystrix-dashboard:
       path: /hystrix/**
       serviceId: hystrix-dashboard
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 6000000
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maxQueueSize: -1
+      queueSizeRejectionThreshold: 5
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 30000
+        requestVolumeThreshold: 20
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 10000
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
