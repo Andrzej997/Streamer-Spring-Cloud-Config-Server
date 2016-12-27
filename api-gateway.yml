@@ -14,12 +14,6 @@ spring:
       max-request-size: 25600MB
 server:
   port: 8080
-sidecar:
-  port: 8000
-  health-uri: http://localhost:8000/health
-endpoints:
-  restart:
-    enabled: true
 eureka:
   instance:
     hostname: api-gateway
@@ -35,32 +29,66 @@ eureka:
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
+  MaxAutoRetries: 10
+  MaxAutoRetriesNextServer: 10
+  OkToRetryOnAllOperations: true
   eureka:
-    enabled: false
+    enabled: true
 zuul:
+  ignoredServices: "*"
   host:
     connect-timeout-millis: 18000000
     socket-timeout-millis: 18000000
   routes:
     auth-service:
       path: /auth/**
-      url: http://localhost:9000
+      stripPrefix: false
+      service-id: auth-service
+      url: http://localhost:9000/
     ebook-service:
       path: /ebook/**
-      url: http://localhost:9002
+      service-id: ebook-service
+      stripPrefix: false
     image-service:
       path: /image/**
-      url: http://localhost:9004
+      service-id: image-service
+      stripPrefix: false
     music-service:
       path: /music/**
-      url: http://localhost:9006
+      service-id: music-service
+      stripPrefix: false
     video-service:
       path: /video/**
-      url: http://localhost:9008
+      service-id: video-service
+      stripPrefix: false
     hystrix-dashboard:
       path: /hystrix/**
-      url: http://localhost:7979
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 6000000
+      service-id: hystrix-dashboard
+      stripPrefix: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maxQueueSize: -1
+      queueSizeRejectionThreshold: 5
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 30000
+        requestVolumeThreshold: 20
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 10000
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
 ---
 
 spring:
