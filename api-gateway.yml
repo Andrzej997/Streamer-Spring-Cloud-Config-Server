@@ -92,6 +92,9 @@ eureka:
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
+  MaxAutoRetries: 10
+  MaxAutoRetriesNextServer: 10
+  OkToRetryOnAllOperations: true
   eureka:
     enabled: true
 zuul:
