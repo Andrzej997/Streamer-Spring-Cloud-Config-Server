@@ -103,16 +103,22 @@ zuul:
     auth-service:
       path: /auth/**
       url: http://auth-service:9000
+      service-id: auth-service
     ebook-service:
       path: /ebook/**
+      service-id: ebook-service
     image-service:
       path: /image/**
+      service-id: image-service
     music-service:
       path: /music/**
+      service-id: music-service
     video-service:
       path: /video/**
+      service-id: video-service
     hystrix-dashboard:
       path: /hystrix/**
+      service-id: hystrix-dashboard
 
 hystrix:
   threadpool:
