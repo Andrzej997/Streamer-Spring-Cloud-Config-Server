@@ -62,6 +62,7 @@ eureka:
     hostname: config-server
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    prefer-ip-address: true
   client:
     registerWithEureka: true
     fetchRegistry: true
