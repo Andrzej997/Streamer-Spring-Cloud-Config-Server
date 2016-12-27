@@ -97,7 +97,7 @@ ribbon:
   MaxAutoRetriesNextServer: 10
   OkToRetryOnAllOperations: true
   eureka:
-    enabled: false
+    enabled: true
 zuul:
   ignoredServices: "*"
   host:
@@ -108,26 +108,26 @@ zuul:
       path: /auth/**
       url: http://auth-service:9000
       service-id: auth-service
-      stripPrefix: false
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
-      stripPrefix: false
+      url: http://ebook-service:9002
     image-service:
       path: /image/**
       service-id: image-service
-      stripPrefix: false
+      url: http://image-service:9004
     music-service:
       path: /music/**
       service-id: music-service
+      url: http://music-service:9006
     video-service:
       path: /video/**
       service-id: video-service
-      stripPrefix: false
+      url: http://video-service:9008
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-      stripPrefix: false
+      url: http://hystrix-dashboard:7979
 
 hystrix:
   threadpool:
