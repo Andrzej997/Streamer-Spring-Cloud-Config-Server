@@ -20,6 +20,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
     preferIpAddress: true
+    nonSecurePort: ${server.port}
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -112,6 +113,7 @@ eureka:
     hostname: api-gateway
     preferIpAddress: true
     leaseRenewalIntervalInSeconds: 3
+    nonSecurePort: ${server.port}
   client:
     fetchRegistry: true
     registryFetchIntervalSeconds: 5
