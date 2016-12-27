@@ -117,6 +117,8 @@ eureka:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
     prefer-ip-address: true
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${random.value}}}
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -127,7 +129,7 @@ ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
   eureka:
-    enabled: true
+    enabled: false
 encrypt:
   failOnError: false
 logging:
