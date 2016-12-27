@@ -47,6 +47,7 @@ endpoints:
   restart: enabled
 eureka:
   instance:
+    nonSecurePort: 80
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
