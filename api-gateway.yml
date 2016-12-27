@@ -42,29 +42,23 @@ zuul:
   routes:
     auth-service:
       path: /auth/**
-      stripPrefix: false
       service-id: auth-service
       url: http://localhost:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
-      stripPrefix: false
     image-service:
       path: /image/**
       service-id: image-service
-      stripPrefix: false
     music-service:
       path: /music/**
       service-id: music-service
-      stripPrefix: false
     video-service:
       path: /video/**
       service-id: video-service
-      stripPrefix: false
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-      stripPrefix: false
 
 hystrix:
   threadpool:
@@ -134,29 +128,23 @@ zuul:
   routes:
     auth-service:
       path: /auth/**
-      stripPrefix: false
       service-id: auth-service
       url: http://auth-service:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
-      stripPrefix: false
     image-service:
       path: /image/**
       service-id: image-service
-      stripPrefix: false
     music-service:
       path: /music/**
       service-id: music-service
-      stripPrefix: false
     video-service:
       path: /video/**
       service-id: video-service
-      stripPrefix: false
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-      stripPrefix: false
 
 hystrix:
   threadpool:
