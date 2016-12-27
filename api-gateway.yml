@@ -106,28 +106,28 @@ zuul:
   routes:
     auth-service:
       path: /auth/**
-      url: http://auth-service:9000
+      stripPrefix: false
       service-id: auth-service
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
-      url: http://ebook-service:9002
+      stripPrefix: false
     image-service:
       path: /image/**
       service-id: image-service
-      url: http://image-service:9004
+      stripPrefix: false
     music-service:
       path: /music/**
       service-id: music-service
-      url: http://music-service:9006
+      stripPrefix: false
     video-service:
       path: /video/**
       service-id: video-service
-      url: http://video-service:9008
+      stripPrefix: false
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-      url: http://hystrix-dashboard:7979
+      stripPrefix: false
 
 hystrix:
   threadpool:
