@@ -80,7 +80,7 @@ server:
 eureka:
   instance:
     hostname: api-gateway
-    preferIpAddress: false
+    preferIpAddress: true
     leaseRenewalIntervalInSeconds: 3
   client:
     fetchRegistry: true
@@ -108,6 +108,7 @@ zuul:
       path: /auth/**
       stripPrefix: false
       service-id: auth-service
+      url: http://auth-service:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
