@@ -23,9 +23,14 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
-    eureka-connection-idle-timeout-seconds: 3000
+    registryFetchIntervalSeconds: 5
+    instanceInfoReplicationIntervalSeconds: 5
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    eureka-connection-idle-timeout-seconds: 6000
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    lease:
+      duration: 5
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
@@ -59,7 +64,10 @@ zuul:
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-
+music-service:
+  ribbon:
+    ReadTimeout: 18000000
+    ConnectTimeout: 18000000
 hystrix:
   threadpool:
     default:
@@ -112,6 +120,8 @@ eureka:
     eureka-connection-idle-timeout-seconds: 6000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
+    lease:
+      duration: 5
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
@@ -169,3 +179,7 @@ endpoints:
     enabled: true
   health:
     sensitive: false
+music-service:
+  ribbon:
+    ReadTimeout: 18000000
+    ConnectTimeout: 18000000
