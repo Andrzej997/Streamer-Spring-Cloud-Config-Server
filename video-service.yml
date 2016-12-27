@@ -67,8 +67,6 @@ eureka:
     hostname: video-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    metadataMap:
-      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${random.value}}}
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -122,7 +120,9 @@ eureka:
     hostname: video-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-    prefer-ip-address: true
+    prefer-ip-address: false
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${random.value}}}
   client:
     registerWithEureka: true
     fetchRegistry: true

@@ -80,7 +80,7 @@ server:
 eureka:
   instance:
     hostname: api-gateway
-    preferIpAddress: true
+    preferIpAddress: false
     leaseRenewalIntervalInSeconds: 3
   client:
     registryFetchIntervalSeconds: 5
