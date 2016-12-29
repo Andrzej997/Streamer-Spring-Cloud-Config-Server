@@ -1,4 +1,8 @@
-DROP TABLE IF EXISTS USERS CASCADE;
+DROP SEQUENCE IF EXISTS DEFAULTDBSEQ;
+drop extension if exists postgres_fdw;
+DROP TABLE IF EXISTS users_schema.USERS CASCADE;
+DROP schema if exists users_schema CASCADE;
+
 create schema users_schema;
 
 CREATE TABLE users_schema.USERS (
@@ -23,3 +27,6 @@ PRIMARY KEY (USER_ID);
 CREATE SEQUENCE DEFAULTDBSEQ START 1;
 
 create extension postgres_fdw;
+
+insert into users_schema.users(USER_ID, USER_NAME, PASSWORD, NAME, SURNAME, NATIONALITY, EMAIL) 
+values (nextval('DEFAULTDBSEQ'), 'admin', 'admin', 'admin', 'admin', 'PL', 'admin@admin');
