@@ -64,10 +64,13 @@ zuul:
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-music-service:
+gateway:
   ribbon:
     ReadTimeout: 18000000
     ConnectTimeout: 18000000
+    ServerListRefreshInterval: 15000
+    eureka:
+      enabled: true
 hystrix:
   threadpool:
     default:
@@ -179,7 +182,10 @@ endpoints:
     enabled: true
   health:
     sensitive: false
-music-service:
+gateway:
   ribbon:
     ReadTimeout: 18000000
     ConnectTimeout: 18000000
+    ServerListRefreshInterval: 15000
+    eureka:
+      enabled: true
