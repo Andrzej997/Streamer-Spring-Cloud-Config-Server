@@ -49,7 +49,6 @@ zuul:
     auth-service:
       path: /auth/**
       service-id: auth-service
-      url: http://localhost:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
@@ -141,7 +140,6 @@ zuul:
     auth-service:
       path: /auth/**
       service-id: auth-service
-      url: http://auth-service:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
