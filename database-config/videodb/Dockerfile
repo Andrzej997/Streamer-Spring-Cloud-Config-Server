@@ -16,7 +16,7 @@ COPY Videodb_DDL.sql /etc/postgresql/
 RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER sysadm WITH SUPERUSER PASSWORD 'sysadm';" &&\
     createdb -O sysadm videodb &&\
-	psql -U postgres -d videodb -a -f /etc/postgresql/Videodb_DDL.sql
+	psql "postgresql://sysadm:sysadm@localhost/videodb" -a -f /etc/postgresql/Videodb_DDL.sql
 
 RUN sed -i -e 's/peer/md5/g' /etc/postgresql/9.6/main/pg_hba.conf
 

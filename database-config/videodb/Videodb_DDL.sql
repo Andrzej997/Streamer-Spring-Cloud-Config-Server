@@ -190,7 +190,7 @@ create foreign table USERS (
   EMAIL       VARCHAR(1024) NOT NULL
 ) SERVER users_srv OPTIONS ( schema_name 'users_schema', table_name 'users' );
 
-CREATE MATERIALIZED VIEW USERS_VIEW AS SELECT * FROM USERS;
+create or replace view users_view as select * from users; 
 
 ALTER TABLE VIDEO_PLAYLISTS
   ADD CONSTRAINT FK_VIDEO_PLAYLISTS_USERS
