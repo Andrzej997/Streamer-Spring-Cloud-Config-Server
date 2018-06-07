@@ -39,6 +39,7 @@ video-service:
   restart: always
   ports:
   - 9008
+  - 5005:5005
   links:
    - videodb:videodb
    - eureka-service:eureka-service
