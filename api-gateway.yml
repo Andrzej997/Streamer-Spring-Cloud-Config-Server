@@ -12,8 +12,18 @@ spring:
     multipart:
       max-file-size: 25600MB
       max-request-size: 25600MB
+  mvc:
+    async:
+      request-timeout: 3600
+  session:
+    timeout: 3600
+  transaction:
+    default-timeout: 3600
 server:
   port: 8080
+  connection-timeout: -1
+  session:
+    timeout: 3600
 eureka:
   instance:
     hostname: api-gateway
@@ -28,6 +38,7 @@ eureka:
     instanceInfoReplicationIntervalSeconds: 5
     initialInstanceInfoReplicationIntervalSeconds: 5
     eureka-connection-idle-timeout-seconds: 6000
+    eureka-server-read-timeout-seconds: 5000
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
     lease:
@@ -49,7 +60,6 @@ zuul:
     auth-service:
       path: /auth/**
       service-id: auth-service
-      url: http://localhost:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
@@ -65,10 +75,13 @@ zuul:
     hystrix-dashboard:
       path: /hystrix/**
       service-id: hystrix-dashboard
-music-service:
+gateway:
   ribbon:
     ReadTimeout: 18000000
     ConnectTimeout: 18000000
+    ServerListRefreshInterval: 15000
+    eureka:
+      enabled: true
 hystrix:
   threadpool:
     default:
@@ -106,8 +119,18 @@ spring:
     multipart:
       max-file-size: 25600MB
       max-request-size: 25600MB
+  mvc:
+    async:
+      request-timeout: 3600
+  session:
+    timeout: 3600
+  transaction:
+    default-timeout: 3600
 server:
   port: 8080
+  connection-timeout: -1
+  session:
+    timeout: 3600
 eureka:
   instance:
     hostname: api-gateway
@@ -120,6 +143,7 @@ eureka:
     instanceInfoReplicationIntervalSeconds: 5
     initialInstanceInfoReplicationIntervalSeconds: 5
     eureka-connection-idle-timeout-seconds: 6000
+    eureka-server-read-timeout-seconds: 5000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
     lease:
@@ -141,7 +165,6 @@ zuul:
     auth-service:
       path: /auth/**
       service-id: auth-service
-      url: http://auth-service:9000/
     ebook-service:
       path: /ebook/**
       service-id: ebook-service
@@ -181,7 +204,10 @@ endpoints:
     enabled: true
   health:
     sensitive: false
-music-service:
+gateway:
   ribbon:
     ReadTimeout: 18000000
     ConnectTimeout: 18000000
+    ServerListRefreshInterval: 15000
+    eureka:
+      enabled: true

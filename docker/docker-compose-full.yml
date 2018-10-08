@@ -1,0 +1,130 @@
+usersdb:
+  container_name: usersdb
+  image: mateuszsojka/usersdb:latest
+  ports:
+   - 5432
+ebookdb:
+  container_name: ebookdb
+  image: mateuszsojka/ebookdb:latest
+  ports:
+   - 5432
+  links:
+   - usersdb:usersdb
+imagedb:
+  container_name: imagedb
+  image: mateuszsojka/imagedb:latest
+  ports:
+   - 5432
+  links:
+   - usersdb:usersdb
+musicdb:
+  container_name: musicdb
+  image: mateuszsojka/musicdb:latest
+  ports:
+   - 5432
+  links:
+   - usersdb:usersdb
+videodb:
+  container_name: videodb
+  image: mateuszsojka/videodb:latest
+  ports:
+   - 5432
+  links:
+   - usersdb:usersdb
+   
+eureka-service:
+  image: mateuszsojka/eureka-service:latest
+  ports:
+   - 8761:8761
+
+config-server:
+  image: mateuszsojka/config-server:latest
+  restart: always
+  ports:
+   - 8888:8888
+  links:
+   - eureka-service:eureka-service
+
+hystrix-dashboard:
+  image: mateuszsojka/hystrix-dashboard:latest
+  restart: always
+  ports:
+   - 7979:7979
+  links:
+   - eureka-service:eureka-service
+   - config-server:config-server
+
+auth-service:
+  image: mateuszsojka/auth-service:latest
+  restart: always
+  ports:
+   - 9000:9000
+  links:
+   - usersdb:usersdb
+   - eureka-service:eureka-service
+   - config-server:config-server
+
+ebook-service:
+  image: mateuszsojka/ebook-service:latest
+  restart: always
+  ports:
+  - 9002
+  links:
+   - ebookdb:ebookdb
+   - eureka-service:eureka-service
+   - config-server:config-server
+
+image-service:
+  image: mateuszsojka/image-service:latest
+  restart: always
+  ports:
+  - 9004
+  links:
+   - imagedb:imagedb
+   - eureka-service:eureka-service
+   - config-server:config-server
+
+music-service:
+  image: mateuszsojka/music-service:latest
+  restart: always
+  ports:
+  - 9006
+  links:
+   - musicdb:musicdb
+   - eureka-service:eureka-service
+   - config-server:config-server
+
+video-service:
+  image: mateuszsojka/video-service:latest
+  restart: always
+  ports:
+  - 9008
+  links:
+   - videodb:videodb
+   - eureka-service:eureka-service
+   - config-server:config-server
+
+api-gateway:
+  image: mateuszsojka/api-gateway:latest
+  restart: always
+  ports:
+  - 8080:8080
+  links:
+  - eureka-service:eureka-service
+  - config-server:config-server
+  - auth-service:auth-service
+  - ebook-service:ebook-service
+  - image-service:image-service
+  - music-service:music-service
+  - video-service:video-service
+
+streamer:
+  image: mateuszsojka/streamer:latest
+  container_name: streamer
+  ports:
+   - 4200:4200
+  command: ng serve --host 0.0.0.0 --prod
+  links:
+   - api-gateway
+  environment:
+    NODE_ENV: production

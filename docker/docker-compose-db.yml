@@ -1,0 +1,12 @@
+usersdb:
+  container_name: usersdb
+  image: mateuszsojka/usersdb:latest
+  ports:
+   - 5432
+videodb:
+  container_name: videodb
+  image: mateuszsojka/videodb:latest
+  ports:
+   - 5432
+  links:
+   - usersdb:usersdb

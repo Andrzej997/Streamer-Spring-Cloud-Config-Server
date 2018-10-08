@@ -159,7 +159,7 @@ CREATE SEQUENCE DEFAULTDBSEQ START 1;
 CREATE EXTENSION postgres_fdw;
 
 CREATE SERVER users_srv foreign data wrapper postgres_fdw OPTIONS 
-        ( host '172.17.0.2', port '5432', dbname 'usersdb');
+        ( host 'usersdb', port '5432', dbname 'usersdb');
 		
 CREATE USER MAPPING FOR sysadm SERVER users_srv OPTIONS 
         ( user 'sysadm', password 'sysadm' );

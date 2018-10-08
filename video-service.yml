@@ -60,8 +60,18 @@ spring:
     multipart:
       max-file-size: 25600MB
       max-request-size: 25600MB
+  mvc:
+    async:
+      request-timeout: 3600
+  session:
+    timeout: 3600
+  transaction:
+    default-timeout: 3600
 server:
   port: 9008
+  connection-timeout: -1
+  session:
+    timeout: 3600
 eureka:
   instance:
     hostname: video-service
@@ -73,6 +83,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     eureka-connection-idle-timeout-seconds: 3000
+    eureka-server-read-timeout-seconds: 5000
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 ribbon:
@@ -115,8 +126,18 @@ spring:
     multipart:
       max-file-size: 25600MB
       max-request-size: 25600MB
+  mvc:
+    async:
+      request-timeout: 3600
+  session:
+    timeout: 3600
+  transaction:
+    default-timeout: 3600
 server:
   port: 9008
+  connection-timeout: -1
+  session:
+    timeout: 3600
 eureka:
   instance:
     hostname: video-service
@@ -130,6 +151,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     eureka-connection-idle-timeout-seconds: 3000
+    eureka-server-read-timeout-seconds: 5000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
 ribbon:
