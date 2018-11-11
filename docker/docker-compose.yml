@@ -55,3 +55,9 @@ api-gateway:
   - config-server:config-server
   - auth-service:auth-service
   - video-service:video-service
+
+streamer-web-app:
+  image: mateuszsojka/streamer-web-app:latest
+  restart: always
+  ports: 
+  - 80:80
