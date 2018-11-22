@@ -1,57 +1,86 @@
-usersdb:
-  container_name: usersdb
-  image: mateuszsojka/usersdb:latest
-  ports:
-   - 5432
-videodb:
-  container_name: videodb
-  image: mateuszsojka/videodb:latest
-  ports:
-   - 5432
-  links:
-   - usersdb:usersdb
-   
-eureka-service:
-  image: mateuszsojka/eureka-service:latest
-  ports:
-   - 8761:8761
+version: "3"
 
-config-server:
-  image: mateuszsojka/config-server:latest
-  restart: always
-  ports:
-   - 8888:8888
-  links:
-   - eureka-service:eureka-service
+networks:
+  front:
+  back:
 
-auth-service:
-  image: mateuszsojka/auth-service:latest
-  restart: always
-  ports:
-   - 9000:9000
-  links:
-   - usersdb:usersdb
-   - eureka-service:eureka-service
-   - config-server:config-server
+services:
+  usersdb:
+    container_name: usersdb
+    image: mateuszsojka/usersdb:latest
+    networks:
+     - back
+  videodb:
+    container_name: videodb
+    image: mateuszsojka/videodb:latest
+    depends_on:
+     - usersdb
+    networks:
+     - back
 
-video-service:
-  image: mateuszsojka/video-service:latest
-  restart: always
-  ports:
-  - 9008
-  - 5005:5005
-  links:
-   - videodb:videodb
-   - eureka-service:eureka-service
-   - config-server:config-server
+  eureka-service:
+    image: mateuszsojka/eureka-service:latest
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
 
-api-gateway:
-  image: mateuszsojka/api-gateway:latest
-  restart: always
-  ports:
-  - 8080:8080
-  links:
-  - eureka-service:eureka-service
-  - config-server:config-server
-  - auth-service:auth-service
-  - video-service:video-service
+  config-server:
+    image: mateuszsojka/config-server:latest
+    restart: always
+    depends_on:
+     - eureka-service
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
+
+  auth-service:
+    image: mateuszsojka/auth-service:latest
+    restart: always
+    depends_on:
+     - eureka-service
+     - config-server
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
+
+  video-service:
+    image: mateuszsojka/video-service:latest
+    restart: always
+    depends_on:
+     - eureka-service
+     - config-server
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
+
+  api-gateway:
+    image: mateuszsojka/api-gateway:latest
+    restart: always
+    depends_on:
+     - eureka-service
+     - config-server
+     - auth-service
+     - video-service
+    ports:
+     - 8080:8080
+    networks:
+     - back
+     - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
+
+  streamer-web-app:
+    image: mateuszsojka/streamer-web-app:latest
+    restart: always
+    depends_on:
+     - api-gateway
+    ports: 
+     - 80:80
+    networks:
+     - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"

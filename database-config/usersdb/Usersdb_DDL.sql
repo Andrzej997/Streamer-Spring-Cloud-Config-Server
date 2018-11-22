@@ -50,8 +50,8 @@ create extension postgres_fdw;
 
 INSERT INTO USERS_SCHEMA.USERS
 (USER_ID, USER_NAME, PASSWORD, NAME, SURNAME, NATIONALITY, EMAIL, account_expiration_date, account_locked, password_expiration_date)
-VALUES (nextval('DEFAULTDBSEQ'), 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
-'admin', 'admin', 'PL', 'admin@admin', current_date + 120, false, current_date + 120);
+VALUES (nextval('DEFAULTDBSEQ'), 'admin', 'ff596073c7fa8cf43ae4f91b26891834b075297946a2306b9d65ce29800612c6',
+'admin', 'admin', 'PL', 'admin@admin', current_date + 1200, false, current_date + 1200);
 
 INSERT INTO USERS_SCHEMA.AUTHORITY
 (authority_id, authority, user_id)
