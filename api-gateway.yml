@@ -14,16 +14,16 @@ spring:
       max-request-size: 25600MB
   mvc:
     async:
-      request-timeout: 3600000s
+      request-timeout: 3600s
   session:
-    timeout: 3600000s
+    timeout: 3600s
   transaction:
-    default-timeout: 3600000s
+    default-timeout: 3600s
 server:
   port: 8080
   connection-timeout: -1s
   session:
-    timeout: 3600000s
+    timeout: 3600s
 eureka:
   instance:
     hostname: api-gateway
@@ -121,16 +121,16 @@ spring:
       max-request-size: 25600MB
   mvc:
     async:
-      request-timeout: 3600000s
+      request-timeout: 3600s
   session:
-    timeout: 3600000s
+    timeout: 3600s
   transaction:
-    default-timeout: 3600000s
+    default-timeout: 3600s
 server:
   port: 8080
   connection-timeout: -1s
   session:
-    timeout: 3600000s
+    timeout: 3600s
 eureka:
   instance:
     hostname: api-gateway
