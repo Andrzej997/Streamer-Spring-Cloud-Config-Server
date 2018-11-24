@@ -75,9 +75,6 @@ service:
         uri: http://${spring.application.name}-mateuszsojka.${application.domain:cfapps.io}
 encrypt:
   failOnError: false
-logging:
-  file: log.txt
-  level: error
 
 ---
 spring:
@@ -115,7 +112,4 @@ eureka:
       defaultZone: http://eureka-service:8761/eureka/
 encrypt:
   failOnError: false
-logging:
-  file: log.txt
-  level: error
 ---
