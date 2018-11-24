@@ -82,3 +82,5 @@ services:
      - 80:80
     networks:
      - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
