@@ -22,6 +22,8 @@ services:
     image: mateuszsojka/eureka-service:latest
     networks:
      - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
 
   config-server:
     image: mateuszsojka/config-server:latest
@@ -30,6 +32,8 @@ services:
      - eureka-service
     networks:
      - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
 
   auth-service:
     image: mateuszsojka/auth-service:latest
@@ -39,6 +43,8 @@ services:
      - config-server
     networks:
      - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
 
   video-service:
     image: mateuszsojka/video-service:latest
@@ -46,10 +52,10 @@ services:
     depends_on:
      - eureka-service
      - config-server
-    ports:
-     - 5005:5005
     networks:
      - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
 
   api-gateway:
     image: mateuszsojka/api-gateway:latest
@@ -64,6 +70,8 @@ services:
     networks:
      - back
      - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
 
   streamer-web-app:
     image: mateuszsojka/streamer-web-app:latest

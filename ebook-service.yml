@@ -77,9 +77,6 @@ ribbon:
     enabled: false
 encrypt:
   failOnError: false
-logging:
-  file: log.txt
-  level: error
 
 ---
 
@@ -134,8 +131,5 @@ ribbon:
     enabled: true
 encrypt:
   failOnError: false
-logging:
-  file: log.txt
-  level: error
 
 ---
