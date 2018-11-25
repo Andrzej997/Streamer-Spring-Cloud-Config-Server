@@ -56,10 +56,10 @@ spring:
       default-auto-commit: false
     dbcp:
       default-auto-commit: false
-  http:
+  servlet:
     multipart:
-      max-file-size: 25600MB
-      max-request-size: 25600MB
+      max-file-size: 200MB
+      max-request-size: 200MB
   mvc:
     async:
       request-timeout: 3600s
@@ -119,10 +119,10 @@ spring:
       default-auto-commit: false
     dbcp:
       default-auto-commit: false
-  http:
+  servlet:
     multipart:
-      max-file-size: 25600MB
-      max-request-size: 25600MB
+      max-file-size: 200MB
+      max-request-size: 200MB
   mvc:
     async:
       request-timeout: 3600s
