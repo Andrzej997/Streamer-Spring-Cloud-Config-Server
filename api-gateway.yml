@@ -8,10 +8,6 @@ spring:
     config:
       discovery:
         enabled: true
-  http:
-    multipart:
-      max-file-size: 25600MB
-      max-request-size: 25600MB
   mvc:
     async:
       request-timeout: 3600s
@@ -19,6 +15,10 @@ spring:
     timeout: 3600s
   transaction:
     default-timeout: 3600s
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
 server:
   port: 8080
   connection-timeout: -1s
@@ -115,10 +115,6 @@ spring:
     config:
       discovery:
         enabled: true
-  http:
-    multipart:
-      max-file-size: 25600MB
-      max-request-size: 25600MB
   mvc:
     async:
       request-timeout: 3600s
@@ -126,6 +122,10 @@ spring:
     timeout: 3600s
   transaction:
     default-timeout: 3600s
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
 server:
   port: 8080
   connection-timeout: -1s
