@@ -211,3 +211,12 @@ gateway:
     ServerListRefreshInterval: 15000
     eureka:
       enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        web: error
+      hibernate: error
+    org:
+      zalando:
+        logbook: TRACE
