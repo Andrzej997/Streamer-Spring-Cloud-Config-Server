@@ -97,7 +97,7 @@ hystrix:
         isolation:
           strategy: THREAD
           thread:
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 3600000
 endpoints:
   restart:
     enabled: true
@@ -196,7 +196,7 @@ hystrix:
         isolation:
           strategy: THREAD
           thread:
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 3600000
 endpoints:
   restart:
     enabled: true
