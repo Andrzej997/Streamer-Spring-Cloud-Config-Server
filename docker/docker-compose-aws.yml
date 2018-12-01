@@ -1,79 +1,106 @@
 version: "3"
 
-networks:
-  front:
-  back:
-
 services:
   eureka-service:
     image: mateuszsojka/eureka-service:latest
-    networks:
-     - back
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 96M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 50
+        window: 120s
     environment:
      - "SPRING_PROFILES_ACTIVE=aws"
-
-  config-server:
-    image: mateuszsojka/config-server:latest
-    restart: always
-    depends_on:
-     - eureka-service
-    networks:
-     - back
-    environment:
-     - "SPRING_PROFILES_ACTIVE=aws"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: streamer
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: eureka-service
 
   auth-service:
     image: mateuszsojka/auth-service:latest
-    restart: always
-    depends_on:
-     - eureka-service
-     - config-server
-    networks:
-     - back
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 50
+        window: 120s
     environment:
      - "SPRING_PROFILES_ACTIVE=aws"
      - "AWS_JDBC_USERS_URL=jdbc:postgresql://streamer-db.cmyghtop8klq.eu-central-1.rds.amazonaws.com:5432/streamerdb"
      - "AWS_JDBC_USERS_USER=postgres"
      - "AWS_JDBC_USERS_PASSWORD=postgres"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: streamer
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: auth-service
 
   video-service:
     image: mateuszsojka/video-service:latest
-    restart: always
-    depends_on:
-     - eureka-service
-     - config-server
-    networks:
-     - back
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 50
+        window: 120s
     environment:
      - "SPRING_PROFILES_ACTIVE=aws"
      - "AWS_JDBC_VIDEO_URL=jdbc:postgresql://streamer-db.cmyghtop8klq.eu-central-1.rds.amazonaws.com:5432/videodb"
      - "AWS_JDBC_VIDEO_USER=postgres"
      - "AWS_JDBC_VIDEO_PASSWORD=postgres"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: streamer
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: video-service
 
   api-gateway:
     image: mateuszsojka/api-gateway:latest
-    restart: always
-    depends_on:
-     - eureka-service
-     - config-server
-     - auth-service
-     - video-service
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 96M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 50
+        window: 120s
     ports:
      - 8080:8080
-    networks:
-     - back
-     - front
     environment:
      - "SPRING_PROFILES_ACTIVE=aws"
-
-  streamer-web-app:
-    image: mateuszsojka/streamer-web-app:latest
-    restart: always
-    depends_on:
-     - api-gateway
-    ports: 
-     - 80:80
-    networks:
-     - front
-    environment:
-     - "SPRING_PROFILES_ACTIVE=aws"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: streamer
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: api-gateway

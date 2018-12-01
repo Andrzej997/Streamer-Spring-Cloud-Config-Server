@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  streamer-web-app:
+    image: mateuszsojka/streamer-web-app:latest
+    ports: 
+     - 80:80
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: streamer
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: streamer-web-app
