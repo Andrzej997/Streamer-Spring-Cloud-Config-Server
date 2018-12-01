@@ -113,3 +113,39 @@ eureka:
 encrypt:
   failOnError: false
 ---
+spring:
+  profiles: aws
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
+          clone-on-start: true
+      discovery:
+        enabled: true
+        serviceId: config-server
+server:
+  port: 8888
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+eureka:
+  instance:
+    hostname: config-server
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    nonSecurePort: ${server.port}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
+encrypt:
+  failOnError: false
+---

@@ -1,0 +1,79 @@
+version: "3"
+
+networks:
+  front:
+  back:
+
+services:
+  eureka-service:
+    image: mateuszsojka/eureka-service:latest
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=aws"
+
+  config-server:
+    image: mateuszsojka/config-server:latest
+    restart: always
+    depends_on:
+     - eureka-service
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=aws"
+
+  auth-service:
+    image: mateuszsojka/auth-service:latest
+    restart: always
+    depends_on:
+     - eureka-service
+     - config-server
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=aws"
+     - "AWS_JDBC_USERS_URL=jdbc:postgresql://streamer-db.cmyghtop8klq.eu-central-1.rds.amazonaws.com:5432/streamerdb"
+     - "AWS_JDBC_USERS_USER=postgres"
+     - "AWS_JDBC_USERS_PASSWORD=postgres"
+
+  video-service:
+    image: mateuszsojka/video-service:latest
+    restart: always
+    depends_on:
+     - eureka-service
+     - config-server
+    networks:
+     - back
+    environment:
+     - "SPRING_PROFILES_ACTIVE=aws"
+     - "AWS_JDBC_VIDEO_URL=jdbc:postgresql://streamer-db.cmyghtop8klq.eu-central-1.rds.amazonaws.com:5432/videodb"
+     - "AWS_JDBC_VIDEO_USER=postgres"
+     - "AWS_JDBC_VIDEO_PASSWORD=postgres"
+
+  api-gateway:
+    image: mateuszsojka/api-gateway:latest
+    restart: always
+    depends_on:
+     - eureka-service
+     - config-server
+     - auth-service
+     - video-service
+    ports:
+     - 8080:8080
+    networks:
+     - back
+     - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=aws"
+
+  streamer-web-app:
+    image: mateuszsojka/streamer-web-app:latest
+    restart: always
+    depends_on:
+     - api-gateway
+    ports: 
+     - 80:80
+    networks:
+     - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=aws"
