@@ -107,8 +107,24 @@ spring:
       default-auto-commit: false
     dbcp:
       default-auto-commit: false
+    hikari:
+      auto-commit: false
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+  mvc:
+    async:
+      request-timeout: 3600s
+  session:
+    timeout: 3600s
+  transaction:
+    default-timeout: 3600s
 server:
   port: 9002
+  connection-timeout: -1s
+  session:
+    timeout: 3600s
 eureka:
   instance:
     hostname: ebook-service
@@ -122,6 +138,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     eureka-connection-idle-timeout-seconds: 3000
+    eureka-server-read-timeout-seconds: 5000
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
 ribbon:
