@@ -11,13 +11,26 @@ spring:
       uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
 server:
   port: 8761
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
@@ -46,13 +59,26 @@ spring:
         enabled: true
 server:
   port: 8761
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     hostname: eureka-service
@@ -82,13 +108,26 @@ spring:
         enabled: true
 server:
   port: 8761
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     hostname: eureka-service
@@ -115,13 +154,26 @@ spring:
         serviceId: config-server
 server:
   port: 8761
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     prefer-ip-address: false

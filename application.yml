@@ -22,8 +22,26 @@ cloudfoundry:
     serviceId: ${PREFIX:}resource
 application:
   domain: ${APPLICATION_DOMAIN:cfapps.io}
-endpoints:
-  restart: enabled
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
@@ -43,8 +61,26 @@ spring:
       discovery:
         enabled: true
         serviceId: config-server
-endpoints:
-  restart: enabled
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     nonSecurePort: 80
@@ -62,8 +98,26 @@ spring:
       discovery:
         enabled: true
         serviceId: config-server
-endpoints:
-  restart: enabled
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   instance:
     nonSecurePort: 80

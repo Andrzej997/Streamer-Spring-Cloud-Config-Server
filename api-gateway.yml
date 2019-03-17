@@ -100,13 +100,26 @@ hystrix:
           strategy: THREAD
           thread:
             timeoutInMilliseconds: 3600000
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 ---
 spring:
   profiles: docker
@@ -200,13 +213,26 @@ hystrix:
           strategy: THREAD
           thread:
             timeoutInMilliseconds: 3600000
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 gateway:
   ribbon:
     ReadTimeout: 18000000
@@ -307,13 +333,26 @@ hystrix:
           strategy: THREAD
           thread:
             timeoutInMilliseconds: 3600000
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 gateway:
   ribbon:
     ReadTimeout: 18000000

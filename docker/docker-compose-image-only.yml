@@ -11,33 +11,9 @@ services:
     networks:
      - back
 
-  videodb:
-    container_name: videodb
-    image: mateuszsojka/videodb:latest
-    depends_on:
-     - usersdb
-    networks:
-     - back
-
-  ebookdb:
-    container_name: ebookdb
-    image: mateuszsojka/ebookdb:latest
-    depends_on:
-     - usersdb
-    networks:
-     - back
-
   imagedb:
     container_name: imagedb
     image: mateuszsojka/imagedb:latest
-    depends_on:
-     - usersdb
-    networks:
-     - back
-
-  musicdb:
-    container_name: musicdb
-    image: mateuszsojka/musicdb:latest
     depends_on:
      - usersdb
     networks:
@@ -137,62 +113,8 @@ services:
     depends_on:
      - logstash
 
-  video-service:
-    image: mateuszsojka/video-service:latest
-    restart: always
-    depends_on:
-     - eureka-service
-     - config-server
-    networks:
-     - back
-    environment:
-     - "SPRING_PROFILES_ACTIVE=docker"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://127.0.0.1:25826"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
-
-  ebook-service:
-    image: mateuszsojka/ebook-service:latest
-    restart: always
-    depends_on:
-     - eureka-service
-     - config-server
-    networks:
-     - back
-    environment:
-     - "SPRING_PROFILES_ACTIVE=docker"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://127.0.0.1:25826"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
-
   image-service:
     image: mateuszsojka/image-service:latest
-    restart: always
-    depends_on:
-     - eureka-service
-     - config-server
-    networks:
-     - back
-    environment:
-     - "SPRING_PROFILES_ACTIVE=docker"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://127.0.0.1:25826"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
-
-  music-service:
-    image: mateuszsojka/music-service:latest
     restart: always
     depends_on:
      - eureka-service
@@ -213,10 +135,11 @@ services:
     image: mateuszsojka/api-gateway:latest
     restart: always
     depends_on:
+     - logstash
      - eureka-service
      - config-server
      - auth-service
-     - video-service
+     - image-service
     ports:
      - 8080:8080
     networks:
@@ -229,6 +152,4 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 

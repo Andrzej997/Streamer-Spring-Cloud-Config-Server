@@ -30,6 +30,26 @@ ribbon:
   ConnectTimeout: 18000000
   eureka:
     enabled: true
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 ---
 
@@ -95,6 +115,26 @@ ribbon:
     enabled: true
 encrypt:
   failOnError: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 ---
 
@@ -162,6 +202,26 @@ ribbon:
     enabled: true
 encrypt:
   failOnError: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 ---
 spring:
   profiles: aws
@@ -232,3 +292,23 @@ ribbon:
     enabled: true
 encrypt:
   failOnError: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    auditevents:
+      enabled: true
+    httptrace:
+      enabled: true
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

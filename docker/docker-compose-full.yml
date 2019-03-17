@@ -128,3 +128,16 @@ streamer:
    - api-gateway
   environment:
     NODE_ENV: production
+
+    
+  streamer-web-app:
+    image: mateuszsojka/streamer-web-app:latest
+    restart: always
+    depends_on:
+     - api-gateway
+    ports: 
+     - 80:80
+    networks:
+     - front
+    environment:
+     - "SPRING_PROFILES_ACTIVE=docker"
