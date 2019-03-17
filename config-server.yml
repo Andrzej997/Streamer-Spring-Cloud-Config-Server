@@ -110,7 +110,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://elasticsearch:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 service:
   definition:
     metadata:

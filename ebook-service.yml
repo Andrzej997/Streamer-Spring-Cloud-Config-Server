@@ -29,7 +29,7 @@ management:
   metrics:
     export:
       elastic:
-        host: http://localhost:9200
+        host: http://elasticsearch:9200
         enabled: true
         step: 1m
         index: metrics
@@ -109,7 +109,7 @@ management:
   metrics:
     export:
       elastic:
-        host: http://localhost:9200
+        host: http://elasticsearch:9200
         enabled: true
         step: 1m
         index: metrics

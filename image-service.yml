@@ -82,7 +82,7 @@ spring:
     database: POSTGRESQL
   datasource:
     initialize: false
-    url: jdbc:postgresql://elasticsearch:5432/imagedb
+    url: jdbc:postgresql://localhost:5432/imagedb
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
@@ -108,7 +108,7 @@ eureka:
     fetchRegistry: true
     eureka-connection-idle-timeout-seconds: 3000
     serviceUrl:
-      defaultZone: http://elasticsearch:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000

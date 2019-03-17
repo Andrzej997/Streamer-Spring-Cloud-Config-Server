@@ -110,7 +110,7 @@ spring:
   profiles: development
   cloud:
     config:
-      uri: http://elasticsearch:8888
+      uri: http://localhost:8888
       discovery:
         enabled: true
         serviceId: config-server
@@ -149,4 +149,4 @@ eureka:
     leaseExpirationDurationInSeconds: 2
   client:
     serviceUrl:
-        defaultZone: http://elasticsearch:8761/eureka/
+        defaultZone: http://localhost:8761/eureka/
