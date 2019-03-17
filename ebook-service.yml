@@ -26,6 +26,14 @@ ribbon:
   eureka:
     enabled: true
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://localhost:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -98,6 +106,14 @@ ribbon:
 encrypt:
   failOnError: false
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://localhost:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -189,6 +205,14 @@ ribbon:
 encrypt:
   failOnError: false
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true

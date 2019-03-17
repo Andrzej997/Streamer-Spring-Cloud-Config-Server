@@ -33,6 +33,14 @@ ribbon:
   eureka:
     enabled: true
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -74,7 +82,7 @@ spring:
     database: POSTGRESQL
   datasource:
     initialize: false
-    url: jdbc:postgresql://localhost:5432/imagedb
+    url: jdbc:postgresql://elasticsearch:5432/imagedb
     username: sysadm
     password: sysadm
     driver-class-name: org.postgresql.Driver
@@ -100,7 +108,7 @@ eureka:
     fetchRegistry: true
     eureka-connection-idle-timeout-seconds: 3000
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://elasticsearch:8761/eureka/
 ribbon:
   ReadTimeout: 18000000
   ConnectTimeout: 18000000
@@ -109,6 +117,14 @@ ribbon:
 encrypt:
   failOnError: false
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -200,6 +216,14 @@ ribbon:
 encrypt:
   failOnError: false
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true

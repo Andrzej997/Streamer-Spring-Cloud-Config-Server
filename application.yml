@@ -23,6 +23,14 @@ cloudfoundry:
 application:
   domain: ${APPLICATION_DOMAIN:cfapps.io}
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -62,6 +70,14 @@ spring:
         enabled: true
         serviceId: config-server
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -94,11 +110,19 @@ spring:
   profiles: development
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://elasticsearch:8888
       discovery:
         enabled: true
         serviceId: config-server
 management:
+  metrics:
+    export:
+      elastic:
+        host: http://elasticsearch:9200
+        enabled: true
+        step: 1m
+        index: metrics
+    enable: true
   endpoint:
     health:
       enabled: true
@@ -125,4 +149,4 @@ eureka:
     leaseExpirationDurationInSeconds: 2
   client:
     serviceUrl:
-        defaultZone: http://localhost:8761/eureka/
+        defaultZone: http://elasticsearch:8761/eureka/
