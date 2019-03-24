@@ -229,33 +229,11 @@ management:
     web:
       server:
         auto-time-requests: true
-    export:
-      elastic:
-        host: http://localhost:9200
-        enabled: true
-        step: 1s
-        index: metrics
   endpoint:
-    health:
-      enabled: true
-    metrics:
-      enabled: true
-    auditevents:
-      enabled: true
-    httptrace:
-      enabled: true
-    shutdown:
-      enabled: true
-    restart:
-      enabled: true
     prometheus:
       enabled: true
-      sensitive: false
   endpoints:
     web:
       exposure:
         include: "*"
     enabled-by-default: true
-
-endpoints:
-  prometheus.sensitive: false
