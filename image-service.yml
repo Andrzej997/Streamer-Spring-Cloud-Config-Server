@@ -221,34 +221,25 @@ ribbon:
     enabled: true
 encrypt:
   failOnError: false
+logging:
+  level:
+    io.micrometer: DEBUG
 management:
   metrics:
-    web:
-      server:
-        auto-time-requests: true
     export:
       elastic:
-        host: http://elasticsearch:9200
         enabled: true
-        step: 1s
-        index: metrics
-  endpoint:
-    health:
-      enabled: true
-    metrics:
-      enabled: true
-    auditevents:
-      enabled: true
-    httptrace:
-      enabled: true
-    shutdown:
-      enabled: true
-    restart:
-      enabled: true
-    prometheus:
-      enabled: true
+        host: "http://elasticsearch:9200"
+        index: "micrometer-metrics"
+        step: 5s
+        batch-size: 5
+    tags.application: ${spring.application.name}
+    tags.environment: "local"
+    tags.subdomain: "object"
+    tags.programming_language: "java"
   endpoints:
-    web:
-      exposure:
-        include: "*"
     enabled-by-default: true
+    web.exposure.include: '*'
+
+endpoints:
+  prometheus.sensitive: false
