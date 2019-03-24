@@ -102,7 +102,6 @@ hystrix:
             timeoutInMilliseconds: 3600000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -227,7 +226,6 @@ hystrix:
             timeoutInMilliseconds: 3600000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -359,7 +357,6 @@ hystrix:
             timeoutInMilliseconds: 3600000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true

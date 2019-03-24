@@ -34,7 +34,6 @@ ribbon:
     enabled: true
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -122,7 +121,6 @@ encrypt:
   failOnError: false
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -225,7 +223,6 @@ encrypt:
   failOnError: false
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true

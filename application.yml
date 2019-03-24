@@ -24,7 +24,6 @@ application:
   domain: ${APPLICATION_DOMAIN:cfapps.io}
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -75,7 +74,6 @@ spring:
         serviceId: config-server
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -124,7 +122,6 @@ spring:
         serviceId: config-server
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true

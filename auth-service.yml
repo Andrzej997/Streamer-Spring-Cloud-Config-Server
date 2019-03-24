@@ -35,7 +35,6 @@ jwt:
   expiration: 36000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -125,7 +124,6 @@ jwt:
   expiration: 36000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -209,7 +207,6 @@ jwt:
   expiration: 36000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
@@ -295,7 +292,6 @@ jwt:
   expiration: 36000
 management:
   metrics:
-    enable: true
     web:
       server:
         auto-time-requests: true
