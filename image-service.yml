@@ -226,10 +226,15 @@ logging:
     io.micrometer: DEBUG
 management:
   metrics:
+    export:
+      prometheus:
+        enabled: true
     web:
       server:
         auto-time-requests: true
   endpoint:
+    metrics:
+      enabled: true
     prometheus:
       enabled: true
   endpoints:
