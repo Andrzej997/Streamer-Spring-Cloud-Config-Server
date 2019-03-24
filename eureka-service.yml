@@ -12,33 +12,8 @@ spring:
 server:
   port: 8761
 management:
-  metrics:
-    export:
-      elastic:
-        host: http://elasticsearch:9200
-        enabled: true
-        step: 1m
-        index: metrics
-    enable: true
-  endpoint:
-    health:
-      enabled: true
-    metrics:
-      enabled: true
-    auditevents:
-      enabled: true
-    httptrace:
-      enabled: true
-    shutdown:
-      enabled: true
-    restart:
-      enabled: true
-    prometheus:
-      enabled: true
   endpoints:
-    web:
-      exposure:
-        include: "*"
+    enabled-by-default: false
 eureka:
   instance:
     hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
@@ -68,33 +43,8 @@ spring:
 server:
   port: 8761
 management:
-  metrics:
-    export:
-      elastic:
-        host: http://elasticsearch:9200
-        enabled: true
-        step: 1m
-        index: metrics
-    enable: true
-  endpoint:
-    health:
-      enabled: true
-    metrics:
-      enabled: true
-    auditevents:
-      enabled: true
-    httptrace:
-      enabled: true
-    shutdown:
-      enabled: true
-    restart:
-      enabled: true
-    prometheus:
-      enabled: true
   endpoints:
-    web:
-      exposure:
-        include: "*"
+    enabled-by-default: false
 eureka:
   instance:
     hostname: eureka-service
@@ -125,33 +75,8 @@ spring:
 server:
   port: 8761
 management:
-  metrics:
-    export:
-      elastic:
-        host: http://elasticsearch:9200
-        enabled: true
-        step: 1m
-        index: metrics
-    enable: true
-  endpoint:
-    health:
-      enabled: true
-    metrics:
-      enabled: true
-    auditevents:
-      enabled: true
-    httptrace:
-      enabled: true
-    shutdown:
-      enabled: true
-    restart:
-      enabled: true
-    prometheus:
-      enabled: true
   endpoints:
-    web:
-      exposure:
-        include: "*"
+    enabled-by-default: false
 eureka:
   instance:
     hostname: eureka-service
@@ -179,33 +104,8 @@ spring:
 server:
   port: 8761
 management:
-  metrics:
-    export:
-      elastic:
-        host: http://elasticsearch:9200
-        enabled: true
-        step: 1m
-        index: metrics
-    enable: true
-  endpoint:
-    health:
-      enabled: true
-    metrics:
-      enabled: true
-    auditevents:
-      enabled: true
-    httptrace:
-      enabled: true
-    shutdown:
-      enabled: true
-    restart:
-      enabled: true
-    prometheus:
-      enabled: true
   endpoints:
-    web:
-      exposure:
-        include: "*"
+    enabled-by-default: false
 eureka:
   instance:
     prefer-ip-address: false

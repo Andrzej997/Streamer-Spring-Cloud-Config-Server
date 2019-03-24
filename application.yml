@@ -24,13 +24,15 @@ application:
   domain: ${APPLICATION_DOMAIN:cfapps.io}
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     export:
       elastic:
         host: http://elasticsearch:9200
         enabled: true
-        step: 1m
+        step: 1s
         index: metrics
-    enable: true
   endpoint:
     health:
       enabled: true
@@ -50,6 +52,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
 eureka:
   instance:
     hostname: ${PREFIX:}${spring.application.name}.${application.domain:cfapps.io}
@@ -71,13 +74,15 @@ spring:
         serviceId: config-server
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     export:
       elastic:
         host: http://elasticsearch:9200
         enabled: true
-        step: 1m
+        step: 1s
         index: metrics
-    enable: true
   endpoint:
     health:
       enabled: true
@@ -97,6 +102,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
 eureka:
   instance:
     nonSecurePort: 80
@@ -116,13 +122,15 @@ spring:
         serviceId: config-server
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     export:
       elastic:
-        host: http://elasticsearch:9200
+        host: http://localhost:9200
         enabled: true
-        step: 1m
+        step: 1s
         index: metrics
-    enable: true
   endpoint:
     health:
       enabled: true
@@ -142,6 +150,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
 eureka:
   instance:
     nonSecurePort: 80

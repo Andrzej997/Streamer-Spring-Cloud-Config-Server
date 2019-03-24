@@ -102,13 +102,15 @@ hystrix:
             timeoutInMilliseconds: 3600000
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     export:
       elastic:
-        host: http://elasticsearch:9200
+        host: http://localhost:9200
         enabled: true
-        step: 1m
+        step: 1s
         index: metrics
-    enable: true
   endpoint:
     health:
       enabled: true
@@ -128,6 +130,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
 ---
 spring:
   profiles: docker
@@ -223,13 +226,15 @@ hystrix:
             timeoutInMilliseconds: 3600000
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     export:
       elastic:
         host: http://elasticsearch:9200
         enabled: true
-        step: 1m
+        step: 1s
         index: metrics
-    enable: true
   endpoint:
     health:
       enabled: true
@@ -249,6 +254,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
 gateway:
   ribbon:
     ReadTimeout: 18000000
@@ -351,13 +357,15 @@ hystrix:
             timeoutInMilliseconds: 3600000
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     export:
       elastic:
         host: http://elasticsearch:9200
         enabled: true
-        step: 1m
+        step: 1s
         index: metrics
-    enable: true
   endpoint:
     health:
       enabled: true
@@ -377,6 +385,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
 gateway:
   ribbon:
     ReadTimeout: 18000000
