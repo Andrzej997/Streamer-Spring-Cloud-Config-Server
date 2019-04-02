@@ -63,6 +63,31 @@ services:
       retries: 30
     networks:
      - back
+     
+  grafana:
+    image: grafana/grafana:5.4.3
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    networks:
+      back:
+        aliases:
+          - grafana
+  prometheus:
+    image: prom/prometheus:v2.6.1
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    networks:
+      back:
+        aliases:
+          - prometheus
 
   eureka-service:
     image: mateuszsojka/eureka-service:latest
@@ -70,13 +95,6 @@ services:
      - back
     environment:
      - "SPRING_PROFILES_ACTIVE=docker"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://127.0.0.1:25826"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   config-server:
     image: mateuszsojka/config-server:latest
@@ -87,13 +105,6 @@ services:
      - back
     environment:
      - "SPRING_PROFILES_ACTIVE=docker"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://127.0.0.1:25826"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   auth-service:
     image: mateuszsojka/auth-service:latest
@@ -121,13 +132,11 @@ services:
      - config-server
     networks:
      - back
+    ports:
+     - 9004:9004
+     - 5005:5005
     environment:
      - "SPRING_PROFILES_ACTIVE=docker"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://127.0.0.1:25826"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
     depends_on:
      - logstash
 
