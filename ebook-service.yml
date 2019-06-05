@@ -243,3 +243,24 @@ management:
     enabled-by-default: true
 
 ---
+spring:
+  profiles: kubernetes
+  application:
+    name: ebook-service
+  cloud:
+    discovery:
+      enabled: false
+    kubernetes:
+      enabled: true
+      discovery:
+        enabled: true
+      ribbon:
+        enabled: true
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: false
+    fetchRegistry: false
+ribbon:
+  eureka:
+    enabled: false
