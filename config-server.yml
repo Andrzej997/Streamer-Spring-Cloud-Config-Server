@@ -12,6 +12,12 @@ spring:
       server:
         git:
           uri: https://github.com/Andrzej997/Streamer-Spring-Cloud-Config-Server
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
 server:
   port: 8888
 management:
@@ -44,6 +50,12 @@ spring:
       discovery:
         enabled: true
         serviceId: config-server
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
 server:
   port: 8888
 management:
@@ -82,6 +94,12 @@ spring:
       discovery:
         enabled: true
         serviceId: config-server
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
 server:
   port: 8888
 management:

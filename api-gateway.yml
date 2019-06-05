@@ -8,6 +8,12 @@ spring:
     config:
       discovery:
         enabled: true
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
   mvc:
     async:
       request-timeout: 3600s
@@ -140,6 +146,12 @@ spring:
     config:
       discovery:
         enabled: true
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
   mvc:
     async:
       request-timeout: 3600s

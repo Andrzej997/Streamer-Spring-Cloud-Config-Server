@@ -15,6 +15,12 @@ spring:
   cloud:
     config:
       uri: ${vcap.services.${PREFIX:}config-server.credentials.uri:http://${PREFIX:}${config-server.${application.domain:cfapps.io}}}
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
 eureka:
   client:
     eureka-connection-idle-timeout-seconds: 3000
@@ -72,6 +78,12 @@ spring:
     config:
       discovery:
         enabled: true
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
   jpa:
     show_sql: true
     hibernate:
@@ -155,6 +167,12 @@ spring:
     config:
       discovery:
         enabled: true
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      ribbon:
+        enabled: false
   jpa:
     show_sql: true
     hibernate:
