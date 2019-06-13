@@ -8,12 +8,20 @@ services:
   usersdb:
     container_name: usersdb
     image: mateuszsojka/usersdb:latest
+    volumes:
+      - ./usersdb/postgresql:/etc/postgresql
+      - ./usersdb/log:/var/log/postgresql
+      - ./usersdb/lib:/var/lib/postgresql
     networks:
      - back
 
   imagedb:
     container_name: imagedb
     image: mateuszsojka/imagedb:latest
+    volumes:
+      - ./imagedb/postgresql:/etc/postgresql
+      - ./imagedb/log:/var/log/postgresql
+      - ./imagedb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -21,16 +29,11 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
-    ports:
-      - "9200:9200"
     environment:
       - "xpack.security.enabled=false"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data
     networks:
      - back
 
@@ -46,21 +49,14 @@ services:
      - back
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:5.2.2
-    ports:
-      - "25826:25826"
+    image: docker.elastic.co/logstash/logstash:6.6.2
     volumes:
-      - ./elk-config/logstash.config:/elk-config/logstash.config
+      - ./elk-config/logstash.config:/usr/share/logstash/config/logstash.config:ro
     environment:
      - "xpack.security.enabled=false"
-    command: logstash -f /elk-config/logstash.config --config.reload.automatic
+    command: logstash -f /usr/share/logstash/config/logstash.config --config.reload.automatic
     depends_on:
      - elasticsearch
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
     networks:
      - back
      
@@ -112,6 +108,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -121,8 +118,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   image-service:
     image: mateuszsojka/image-service:latest
@@ -130,6 +125,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     ports:
@@ -137,8 +133,6 @@ services:
      - 5005:5005
     environment:
      - "SPRING_PROFILES_ACTIVE=docker"
-    depends_on:
-     - logstash
 
   api-gateway:
     image: mateuszsojka/api-gateway:latest

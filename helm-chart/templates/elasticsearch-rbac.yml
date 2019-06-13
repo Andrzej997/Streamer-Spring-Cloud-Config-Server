@@ -1,0 +1,54 @@
+# RBAC authn and authz
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.elasticsearch.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.elasticsearch.name }}
+    app.kubernetes.io/version: {{ .Values.elasticsearchVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.elasticsearch.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.elasticsearch.name }}
+    app.kubernetes.io/version: {{ .Values.elasticsearchVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - "services"
+      - "namespaces"
+      - "endpoints"
+    verbs:
+      - "get"
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.elasticsearch.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.elasticsearch.name }}
+    app.kubernetes.io/version: {{ .Values.elasticsearchVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.elasticsearch.name }}
+    apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.elasticsearch.name }}
+  apiGroup: ""
+---

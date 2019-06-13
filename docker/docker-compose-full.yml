@@ -1,11 +1,19 @@
 usersdb:
   container_name: usersdb
   image: mateuszsojka/usersdb:latest
+  volumes:
+    - ./usersdb/postgresql:/etc/postgresql
+    - ./usersdb/log:/var/log/postgresql
+    - ./usersdb/lib:/var/lib/postgresql
   ports:
    - 5432
 ebookdb:
   container_name: ebookdb
   image: mateuszsojka/ebookdb:latest
+  volumes:
+    - ./ebookdb/postgresql:/etc/postgresql
+    - ./ebookdb/log:/var/log/postgresql
+    - ./ebookdb/lib:/var/lib/postgresql
   ports:
    - 5432
   links:
@@ -13,6 +21,10 @@ ebookdb:
 imagedb:
   container_name: imagedb
   image: mateuszsojka/imagedb:latest
+  volumes:
+    - ./imagedb/postgresql:/etc/postgresql
+    - ./imagedb/log:/var/log/postgresql
+    - ./imagedb/lib:/var/lib/postgresql
   ports:
    - 5432
   links:
@@ -20,6 +32,10 @@ imagedb:
 musicdb:
   container_name: musicdb
   image: mateuszsojka/musicdb:latest
+  volumes:
+    - ./musicdb/postgresql:/etc/postgresql
+    - ./musicdb/log:/var/log/postgresql
+    - ./musicdb/lib:/var/lib/postgresql
   ports:
    - 5432
   links:
@@ -27,6 +43,10 @@ musicdb:
 videodb:
   container_name: videodb
   image: mateuszsojka/videodb:latest
+  volumes:
+    - ./videodb/postgresql:/etc/postgresql
+    - ./videodb/log:/var/log/postgresql
+    - ./videodb/lib:/var/lib/postgresql
   ports:
    - 5432
   links:

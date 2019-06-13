@@ -1,0 +1,59 @@
+{{- $image := printf "%s/%s:%s" .Values.dockerRegistry .Values.imagedb.imageName .Values.imagedbVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.imagedb.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.imagedb.name }}
+    app.kubernetes.io/version: {{ .Values.imagedbVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.imagedb.replicaCount }}
+  minReadySeconds: {{ .Values.imagedb.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.imagedb.maxUnavailable }}
+      maxSurge: {{ .Values.imagedb.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.imagedb.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.imagedb.name }}
+    spec:
+      volumes:
+        - name: main-storage
+          persistentVolumeClaim:
+            claimName: imagedb-main-volume-claim
+        - name: log-storage
+          persistentVolumeClaim:
+            claimName: imagedb-logs-volume-claim
+        - name: lib-storage
+          persistentVolumeClaim:
+            claimName: imagedb-libs-volume-claim
+      containers:
+        - name: {{ .Values.imagedb.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.imagedb.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.imagedb.memoryRequest }}
+              cpu: {{ .Values.imagedb.cpuRequest }}
+            limits:
+              memory: {{ .Values.imagedb.memoryLimit }}
+              cpu: {{ .Values.imagedb.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.imagedb.port }}
+          volumeMounts:
+            - name: main-storage
+              mountPath: {{ .Values.imagedb.mainMountPath }}
+            - name: log-storage
+              mountPath: {{ .Values.imagedb.logsMountPath }}
+            - name: lib-storage
+              mountPath: {{ .Values.imagedb.libsMountPath }}

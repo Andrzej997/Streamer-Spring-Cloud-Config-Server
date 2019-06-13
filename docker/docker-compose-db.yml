@@ -1,11 +1,19 @@
 usersdb:
   container_name: usersdb
   image: mateuszsojka/usersdb:latest
+    volumes:
+      - ./usersdb/postgresql:/etc/postgresql
+      - ./usersdb/log:/var/log/postgresql
+      - ./usersdb/lib:/var/lib/postgresql
   ports:
    - 5432
 videodb:
   container_name: videodb
   image: mateuszsojka/videodb:latest
+    volumes:
+      - ./videodb/postgresql:/etc/postgresql
+      - ./videodb/log:/var/log/postgresql
+      - ./videodb/lib:/var/lib/postgresql
   ports:
    - 5432
   links:

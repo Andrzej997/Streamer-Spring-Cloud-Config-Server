@@ -1,0 +1,55 @@
+{{- $image := printf "prom/%s:%s" .Values.prometheus.imageName .Values.prometheusVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.prometheus.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.prometheus.name }}
+    app.kubernetes.io/version: {{ .Values.prometheusVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.prometheus.replicaCount }}
+  minReadySeconds: {{ .Values.prometheus.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.prometheus.maxUnavailable }}
+      maxSurge: {{ .Values.prometheus.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.prometheus.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.prometheus.name }}
+    spec:
+      volumes:
+        - name: main-storage
+          persistentVolumeClaim:
+            claimName: prometheus-volume-claim
+        - name: config-volume
+          configMap:
+            name: env
+      containers:
+        - name: {{ .Values.prometheus.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.prometheus.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.prometheus.memoryRequest }}
+              cpu: {{ .Values.prometheus.cpuRequest }}
+            limits:
+              memory: {{ .Values.prometheus.memoryLimit }}
+              cpu: {{ .Values.prometheus.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.prometheus.port }}
+          volumeMounts:
+            - name: main-storage
+              mountPath: {{ .Values.prometheus.mountPath }}
+            - name: config-volume
+              mountPath: {{ .Values.prometheus.configsMountPath }}
+              subPath: prometheus.yml

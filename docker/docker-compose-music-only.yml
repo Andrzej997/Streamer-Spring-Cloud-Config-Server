@@ -8,12 +8,20 @@ services:
   usersdb:
     container_name: usersdb
     image: mateuszsojka/usersdb:latest
+    volumes:
+      - ./usersdb/postgresql:/etc/postgresql
+      - ./usersdb/log:/var/log/postgresql
+      - ./usersdb/lib:/var/lib/postgresql
     networks:
      - back
 
   musicdb:
     container_name: musicdb
     image: mateuszsojka/musicdb:latest
+    volumes:
+      - ./musicdb/postgresql:/etc/postgresql
+      - ./musicdb/log:/var/log/postgresql
+      - ./musicdb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -26,6 +34,8 @@ services:
     environment:
       - "xpack.security.enabled=false"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9200"]
       interval: 10s

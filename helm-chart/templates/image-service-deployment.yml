@@ -1,0 +1,66 @@
+{{- $image := printf "%s/%s:%s" .Values.dockerRegistry .Values.imageService.imageName .Values.imageServiceVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.imageService.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.imageService.name }}
+    app.kubernetes.io/version: {{ .Values.imageServiceVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.imageService.replicaCount }}
+  minReadySeconds: {{ .Values.imageService.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.imageService.maxUnavailable }}
+      maxSurge: {{ .Values.imageService.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.imageService.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.imageService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.imageService.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.imageService.imagePullPolicy }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.imageService.port }}
+            initialDelaySeconds: {{ .Values.imageService.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.imageService.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.imageService.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.imageService.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.imageService.readinessProbe.successThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.imageService.port }}
+            initialDelaySeconds: {{ .Values.imageService.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.imageService.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.imageService.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.imageService.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.imageService.livenessProbe.successThreshold }}
+          resources:
+            requests:
+              memory: {{ .Values.imageService.memoryRequest }}
+              cpu: {{ .Values.imageService.cpuRequest }}
+            limits:
+              memory: {{ .Values.imageService.memoryLimit }}
+              cpu: {{ .Values.imageService.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.imageService.port }}
+          env:
+            - name: JAVA_OPTS
+              value: {{ .Values.imageService.javaOpts }}
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: SPRING_PROFILES_ACTIVE

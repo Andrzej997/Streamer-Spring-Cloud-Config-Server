@@ -1,0 +1,60 @@
+{{- $image := printf "docker.elastic.co/%s:%s" .Values.elasticsearch.imageName .Values.elasticsearchVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.elasticsearch.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.elasticsearch.name }}
+    app.kubernetes.io/version: {{ .Values.elasticsearchVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+spec:
+  replicas: {{ .Values.elasticsearch.replicaCount }}
+  minReadySeconds: {{ .Values.elasticsearch.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.elasticsearch.maxUnavailable }}
+      maxSurge: {{ .Values.elasticsearch.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.elasticsearch.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.elasticsearch.name }}
+        kubernetes.io/cluster-service: "true"
+    spec:
+      volumes:
+        - name: main-storage
+          persistentVolumeClaim:
+            claimName: elasticsearch-volume-claim
+      containers:
+        - name: {{ .Values.elasticsearch.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.elasticsearch.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.elasticsearch.memoryRequest }}
+              cpu: {{ .Values.elasticsearch.cpuRequest }}
+            limits:
+              memory: {{ .Values.elasticsearch.memoryLimit }}
+              cpu: {{ .Values.elasticsearch.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.elasticsearch.port }}
+          volumeMounts:
+            - name: main-storage
+              mountPath: {{ .Values.elasticsearch.mainMountPath }}
+          env:
+            - name: XPACK_SECURITY_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: XPACK_SECURITY_ENABLED
+            - name: ES_JAVA_OPTS
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: ES_JAVA_OPTS

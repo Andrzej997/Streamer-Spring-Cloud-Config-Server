@@ -1,0 +1,60 @@
+{{- $image := printf "grafana/%s:%s" .Values.grafana.imageName .Values.grafanaVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.grafana.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.grafana.name }}
+    app.kubernetes.io/version: {{ .Values.grafanaVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.grafana.replicaCount }}
+  minReadySeconds: {{ .Values.grafana.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.grafana.maxUnavailable }}
+      maxSurge: {{ .Values.grafana.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.grafana.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.grafana.name }}
+    spec:
+      volumes:
+        - name: main-storage
+          persistentVolumeClaim:
+            claimName: grafana-volume-claim
+      containers:
+        - name: {{ .Values.grafana.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.grafana.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.grafana.memoryRequest }}
+              cpu: {{ .Values.grafana.cpuRequest }}
+            limits:
+              memory: {{ .Values.grafana.memoryLimit }}
+              cpu: {{ .Values.grafana.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.grafana.port }}
+          volumeMounts:
+            - name: main-storage
+              mountPath: {{ .Values.grafana.mountPath }}
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-env
+                  key: GF_SECURITY_ADMIN_USER
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-env
+                  key: GF_SECURITY_ADMIN_PASSWORD

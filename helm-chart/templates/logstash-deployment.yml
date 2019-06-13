@@ -1,0 +1,66 @@
+{{- $image := printf "docker.elastic.co/%s:%s" .Values.logstash.imageName .Values.logstashVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.logstash.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.logstash.name }}
+    app.kubernetes.io/version: {{ .Values.logstashVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.logstash.replicaCount }}
+  minReadySeconds: {{ .Values.logstash.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.logstash.maxUnavailable }}
+      maxSurge: {{ .Values.logstash.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.logstash.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.logstash.name }}
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: env
+            items:
+              - key: logstash.yml
+                path: logstash.yml
+        - name: logstash-pipeline-volume
+            configMap:
+              name: env
+              items:
+                - key: logstash.config
+                  path: logstash.config
+      containers:
+        - name: {{ .Values.logstash.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.logstash.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.logstash.memoryRequest }}
+              cpu: {{ .Values.logstash.cpuRequest }}
+            limits:
+              memory: {{ .Values.logstash.memoryLimit }}
+              cpu: {{ .Values.logstash.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.logstash.port }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/logstash/config
+            - name: logstash-pipeline-volume
+              mountPath: /usr/share/logstash/pipeline
+          env:
+            - name: XPACK_SECURITY_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: XPACK_SECURITY_ENABLED

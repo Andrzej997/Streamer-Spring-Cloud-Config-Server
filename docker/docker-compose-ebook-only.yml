@@ -8,12 +8,20 @@ services:
   usersdb:
     container_name: usersdb
     image: mateuszsojka/usersdb:latest
+    volumes:
+      - ./usersdb/postgresql:/etc/postgresql
+      - ./usersdb/log:/var/log/postgresql
+      - ./usersdb/lib:/var/lib/postgresql
     networks:
      - back
 
   ebookdb:
     container_name: ebookdb
     image: mateuszsojka/ebookdb:latest
+    volumes:
+      - ./ebookdb/postgresql:/etc/postgresql
+      - ./ebookdb/log:/var/log/postgresql
+      - ./ebookdb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -26,6 +34,8 @@ services:
     environment:
       - "xpack.security.enabled=false"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9200"]
       interval: 10s
@@ -83,6 +93,7 @@ services:
     restart: always
     depends_on:
      - eureka-service
+     - logstash
     networks:
      - back
     environment:
@@ -92,8 +103,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   auth-service:
     image: mateuszsojka/auth-service:latest
@@ -101,6 +110,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -110,8 +120,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   ebook-service:
     image: mateuszsojka/ebook-service:latest
@@ -119,6 +127,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -128,8 +137,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   api-gateway:
     image: mateuszsojka/api-gateway:latest
@@ -139,6 +146,7 @@ services:
      - config-server
      - auth-service
      - ebook-service
+     - logstash
     ports:
      - 8080:8080
     networks:
@@ -151,6 +159,4 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 

@@ -1,0 +1,66 @@
+{{- $image := printf "%s/%s:%s" .Values.dockerRegistry .Values.apiGateway.imageName .Values.apiGatewayVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.apiGateway.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.apiGateway.name }}
+    app.kubernetes.io/version: {{ .Values.apiGatewayVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.apiGateway.replicaCount }}
+  minReadySeconds: {{ .Values.apiGateway.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.apiGateway.maxUnavailable }}
+      maxSurge: {{ .Values.apiGateway.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.apiGateway.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.apiGateway.name }}
+    spec:
+      containers:
+        - name: {{ .Values.apiGateway.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.apiGateway.imagePullPolicy }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.apiGateway.port }}
+            initialDelaySeconds: {{ .Values.apiGateway.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.apiGateway.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.apiGateway.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.apiGateway.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.apiGateway.readinessProbe.successThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.apiGateway.port }}
+            initialDelaySeconds: {{ .Values.apiGateway.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.apiGateway.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.apiGateway.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.apiGateway.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.apiGateway.livenessProbe.successThreshold }}
+          resources:
+            requests:
+              memory: {{ .Values.apiGateway.memoryRequest }}
+              cpu: {{ .Values.apiGateway.cpuRequest }}
+            limits:
+              memory: {{ .Values.apiGateway.memoryLimit }}
+              cpu: {{ .Values.apiGateway.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.apiGateway.port }}
+          env:
+            - name: JAVA_OPTS
+              value: {{ .Values.apiGateway.javaOpts }}
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: SPRING_PROFILES_ACTIVE

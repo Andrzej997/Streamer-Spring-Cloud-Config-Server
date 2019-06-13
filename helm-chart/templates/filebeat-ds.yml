@@ -1,0 +1,146 @@
+{{- $image := printf "docker.elastic.co/%s:%s" .Values.filebeat.imageName .Values.filebeatVersion -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-prospectors
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: filebeat-prospectors
+    app.kubernetes.io/version: unversioned
+    app.kubernetes.io/component: enviroment
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+data:
+  kubernetes.yml: |-
+    - type: docker
+      containers.ids:
+      - "*"
+      processors:
+        - add_kubernetes_metadata:
+            in_cluster: true
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: filebeat
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.filebeat.name }}
+    app.kubernetes.io/version: {{ .Values.filebeatVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+spec:
+  template:
+    metadata:
+      labels:
+    app.kubernetes.io/name: {{ .Values.filebeat.name }}
+    spec:
+      serviceAccountName: {{ .Values.filebeat.name }}
+      terminationGracePeriodSeconds: {{ .Values.filebeat.terminationGracePeriodSeconds }}
+      containers:
+        - name: {{ .Values.filebeat.name }}
+          image: {{ $image }}
+          args: ["-c", "/etc/filebeat.yml","-e"]
+          env:
+            - name: ELASTICSEARCH_HOST
+              value: {{ .Values.elasticsearch.name }}
+            - name: ELASTICSEARCH_PORT
+              value: {{ .Values.elasticsearch.port }}
+            - name: ELASTICSEARCH_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: ELASTICSEARCH_USERNAME
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: ELASTICSEARCH_PASSWORD
+            - name: ELASTIC_CLOUD_ID
+              value:
+            - name: ELASTIC_CLOUD_AUTH
+              value:
+          securityContext:
+            runAsUser: 0
+          resources:
+            limits:
+              memory: {{ .Values.filebeat.memoryLimit }}
+              cpu: {{ .Values.filebeat.cpuLimit }}
+            requests:
+              cpu: {{ .Values.filebeat.cpuRequest }}
+              memory: {{ .Values.filebeat.memoryRequest }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/filebeat.yml
+              readOnly: true
+            - name: prospectors
+              mountPath: /usr/share/filebeat/prospectors.d
+              readOnly: true
+            - name: data
+              mountPath: /usr/share/filebeat/data
+            - name: varlibdockercontainers
+              mountPath: /var/lib/docker/containers
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            defaultMode: 0600
+            name: env
+            items:
+              - key: filebeat.yml
+                path: filebeat.yml
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
+        - name: prospectors
+          configMap:
+            defaultMode: 0600
+            name: filebeat-prospectors
+        - name: data
+          emptyDir: {}
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.filebeat.name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.filebeat.name }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.filebeat.name }}
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.filebeat.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.filebeat.name }}
+    app.kubernetes.io/version: {{ .Values.filebeatVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources:
+      - namespaces
+      - pods
+    verbs:
+      - get
+      - watch
+      - list
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.filebeat.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.filebeat.name }}
+    app.kubernetes.io/version: {{ .Values.filebeatVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm

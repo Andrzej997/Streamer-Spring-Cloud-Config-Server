@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.imageService.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.imageService.name }}
+    app.kubernetes.io/version: {{ .Values.imageServiceVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+spec:
+  type: ClusterIP
+  selector:
+    component: {{ .Values.imageService.name }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.imageService.port }}

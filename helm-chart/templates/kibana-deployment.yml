@@ -1,0 +1,53 @@
+{{- $image := printf "docker.elastic.co/%s:%s" .Values.kibana.imageName .Values.kibanaVersion -}}
+{{- $elasticUrl := printf "http://%s:%s" .Values.elasticsearch.name .Values.elasticsearch.port -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.kibana.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.kibana.name }}
+    app.kubernetes.io/version: {{ .Values.kibanaVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.kibana.replicaCount }}
+  minReadySeconds: {{ .Values.kibana.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.kibana.maxUnavailable }}
+      maxSurge: {{ .Values.kibana.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.kibana.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.kibana.name }}
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+    spec:
+      containers:
+        - name: {{ .Values.kibana.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.kibana.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.kibana.memoryRequest }}
+              cpu: {{ .Values.kibana.cpuRequest }}
+            limits:
+              memory: {{ .Values.kibana.memoryLimit }}
+              cpu: {{ .Values.kibana.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.kibana.port }}
+          env:
+            - name: XPACK_SECURITY_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: XPACK_SECURITY_ENABLED
+            - name: ELASTICSEARCH_URL
+              value: {{ $elasticUrl }}

@@ -1,0 +1,59 @@
+{{- $image := printf "%s/%s:%s" .Values.dockerRegistry .Values.usersdb.imageName .Values.usersdbVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.usersdb.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.usersdb.name }}
+    app.kubernetes.io/version: {{ .Values.usersdbVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.usersdb.replicaCount }}
+  minReadySeconds: {{ .Values.usersdb.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.usersdb.maxUnavailable }}
+      maxSurge: {{ .Values.usersdb.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.usersdb.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.usersdb.name }}
+    spec:
+      volumes:
+        - name: main-storage
+          persistentVolumeClaim:
+            claimName: usersdb-main-volume-claim
+        - name: log-storage
+          persistentVolumeClaim:
+            claimName: usersdb-logs-volume-claim
+        - name: lib-storage
+          persistentVolumeClaim:
+            claimName: usersdb-libs-volume-claim
+      containers:
+        - name: {{ .Values.usersdb.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.usersdb.imagePullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.usersdb.memoryRequest }}
+              cpu: {{ .Values.usersdb.cpuRequest }}
+            limits:
+              memory: {{ .Values.usersdb.memoryLimit }}
+              cpu: {{ .Values.usersdb.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.usersdb.port }}
+          volumeMounts:
+            - name: main-storage
+              mountPath: {{ .Values.usersdb.mainMountPath }}
+            - name: log-storage
+              mountPath: {{ .Values.usersdb.logsMountPath }}
+            - name: lib-storage
+              mountPath: {{ .Values.usersdb.libsMountPath }}

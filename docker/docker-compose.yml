@@ -8,12 +8,20 @@ services:
   usersdb:
     container_name: usersdb
     image: mateuszsojka/usersdb:latest
+    volumes:
+      - ./usersdb/postgresql:/etc/postgresql
+      - ./usersdb/log:/var/log/postgresql
+      - ./usersdb/lib:/var/lib/postgresql
     networks:
      - back
 
   videodb:
     container_name: videodb
     image: mateuszsojka/videodb:latest
+    volumes:
+      - ./videodb/postgresql:/etc/postgresql
+      - ./videodb/log:/var/log/postgresql
+      - ./videodb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -22,6 +30,10 @@ services:
   ebookdb:
     container_name: ebookdb
     image: mateuszsojka/ebookdb:latest
+    volumes:
+      - ./ebookdb/postgresql:/etc/postgresql
+      - ./ebookdb/log:/var/log/postgresql
+      - ./ebookdb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -30,6 +42,10 @@ services:
   imagedb:
     container_name: imagedb
     image: mateuszsojka/imagedb:latest
+    volumes:
+      - ./imagedb/postgresql:/etc/postgresql
+      - ./imagedb/log:/var/log/postgresql
+      - ./imagedb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -38,6 +54,10 @@ services:
   musicdb:
     container_name: musicdb
     image: mateuszsojka/musicdb:latest
+    volumes:
+      - ./musicdb/postgresql:/etc/postgresql
+      - ./musicdb/log:/var/log/postgresql
+      - ./musicdb/lib:/var/lib/postgresql
     depends_on:
      - usersdb
     networks:
@@ -55,6 +75,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 30
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data
     networks:
      - back
 
@@ -107,6 +129,7 @@ services:
     restart: always
     depends_on:
      - eureka-service
+     - logstash
     networks:
      - back
     environment:
@@ -116,8 +139,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   auth-service:
     image: mateuszsojka/auth-service:latest
@@ -125,6 +146,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -134,8 +156,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   video-service:
     image: mateuszsojka/video-service:latest
@@ -143,6 +163,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -152,8 +173,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   ebook-service:
     image: mateuszsojka/ebook-service:latest
@@ -161,6 +180,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -170,8 +190,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   image-service:
     image: mateuszsojka/image-service:latest
@@ -179,6 +197,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -188,8 +207,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   music-service:
     image: mateuszsojka/music-service:latest
@@ -197,6 +214,7 @@ services:
     depends_on:
      - eureka-service
      - config-server
+     - logstash
     networks:
      - back
     environment:
@@ -206,8 +224,6 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 
   api-gateway:
     image: mateuszsojka/api-gateway:latest
@@ -217,6 +233,7 @@ services:
      - config-server
      - auth-service
      - video-service
+     - logstash
     ports:
      - 8080:8080
     networks:
@@ -229,6 +246,4 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:25826"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-     - logstash
 

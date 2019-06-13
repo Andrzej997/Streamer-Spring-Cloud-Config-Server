@@ -1,0 +1,284 @@
+# Default values for edm-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#globals section
+enviroment: streamer
+dockerRegistry: mateuszsojka
+usersdbVersion: latest
+imagedbVersion: latest
+elasticsearchVersion: 6.6.2
+kibanaVersion: 6.6.2
+logstashVersion: 6.6.2
+grafanaVersion: 5.4.3
+prometheusVersion: v2.6.1
+configServerVersion: latest
+authServiceVersion: latest
+imageServiceVersion: latest
+apiGatewayVersion: latest
+filebeatVersion: 6.3.0
+metricbeatVersion: 6.3.0
+
+hpaTargetCPUUtilizationPercentage: 85
+
+#ingress load-balancer section
+ingress:
+  name: streamer-ingress
+  version: 1.0.0
+  class: nginx
+  rewriteTarget: /
+  host: localhost
+
+usersdb:
+  name: usersdb
+  imageName: usersdb
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 5432
+  memoryRequest: "256Mi"
+  memoryLimit: "512Mi"
+  cpuRequest: 100m
+  cpuLimit: 400m
+  mainMountPath: /etc/postgresql
+  mainRequestStorage: 500Mi
+  logsMountPath: /var/log/postgresql
+  logsRequestStorage: 100Mi
+  libsMountPath: /var/lib/postgresql
+  libsRequestStorage: 100Mi
+
+imagedb:
+  name: imagedb
+  imageName: imagedb
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 5432
+  memoryRequest: "256Mi"
+  memoryLimit: "512Mi"
+  cpuRequest: 100m
+  cpuLimit: 400m
+  mainMountPath: /etc/postgresql
+  mainRequestStorage: 500Mi
+  logsMountPath: /var/log/postgresql
+  logsRequestStorage: 100Mi
+  libsMountPath: /var/lib/postgresql
+  libsRequestStorage: 100Mi
+
+elasticsearch:
+  name: elasticsearch
+  imageName: elasticsearch
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 9200
+  memoryRequest: "256Mi"
+  memoryLimit: "512Mi"
+  cpuRequest: 100m
+  cpuLimit: 400m
+  mainMountPath: /usr/share/elasticsearch/data
+  requestStorage: 500Mi
+
+kibana:
+  name: kibana
+  imageName: kibana
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 5601
+  memoryRequest: "128Mi"
+  memoryLimit: "256Mi"
+  cpuRequest: 50m
+  cpuLimit: 100m
+
+logstash:
+  name: logstash
+  imageName: logstash
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 5044
+  memoryRequest: "128Mi"
+  memoryLimit: "256Mi"
+  cpuRequest: 50m
+  cpuLimit: 100m
+  configsPath: /E/tai/Streamer-Spring-Cloud-Config-Server/helm-chart/configs
+  configsMountPath: /configs
+
+grafana:
+  name: grafana
+  imageName: grafana
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 3000
+  memoryRequest: "128Mi"
+  memoryLimit: "256Mi"
+  cpuRequest: 50m
+  cpuLimit: 100m
+  requestStorage: 100Mi
+  mountPath: /var/lib/grafana
+
+prometheus:
+  name: prometheus
+  imageName: prometheus
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 9090
+  memoryRequest: "256Mi"
+  memoryLimit: "512Mi"
+  cpuRequest: 100m
+  cpuLimit: 200m
+  requestStorage: 500Mi
+  mountPath: /prometheus
+  configsPath: /E/tai/Streamer-Spring-Cloud-Config-Server/helm-chart/configs
+  configsMountPath: /etc/prometheus/
+
+configServer:
+  name: configServer
+  imageName: config-server
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 8888
+  readinessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  livenessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 20
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  memoryRequest: "128Mi"
+  memoryLimit: "256Mi"
+  cpuRequest: 100m
+  cpuLimit: 200m
+  javaOpts: " -Xmx250m -Xms64m "
+  minReplicas: 1
+  maxReplicas: 1
+
+authService:
+  name: authService
+  imageName: auth-service
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 9000
+  readinessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  livenessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 20
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  memoryRequest: "128Mi"
+  memoryLimit: "256Mi"
+  cpuRequest: 100m
+  cpuLimit: 200m
+  javaOpts: " -Xmx250m -Xms64m "
+  minReplicas: 1
+  maxReplicas: 5
+
+imageService:
+  name: imageService
+  imageName: image-service
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 9004
+  readinessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  livenessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 20
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  memoryRequest: "256Mi"
+  memoryLimit: "512Mi"
+  cpuRequest: 100m
+  cpuLimit: 400m
+  javaOpts: " -Xmx512m -Xms64m "
+  minReplicas: 1
+  maxReplicas: 5
+
+apiGateway:
+  name: apiGateway
+  imageName: api-gateway
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 8080
+  readinessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  livenessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 20
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  memoryRequest: "128Mi"
+  memoryLimit: "256Mi"
+  cpuRequest: 100m
+  cpuLimit: 200m
+  javaOpts: " -Xmx250m -Xms64m "
+  minReplicas: 1
+  maxReplicas: 2
+
+filebeat:
+  name: filebeat
+  imageName: filebeat
+  terminationGracePeriodSeconds: 30
+  memoryRequest: "100Mi"
+  memoryLimit: "200Mi"
+  cpuRequest: 100m
+  cpuLimit: 200m
+
+metricbeat:
+  name: metricbeat
+  imageName: metricbeat
+  terminationGracePeriodSeconds: 30
+  memoryRequest: "100Mi"
+  memoryLimit: "200Mi"
+  cpuRequest: 100m
+  cpuLimit: 200m

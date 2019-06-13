@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.imageService.name }}
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.imageService.name }}
+  minReplicas: {{ .Values.imageService.minReplicas }}
+  maxReplicas: {{ .Values.imageService.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.hpaTargetCPUUtilizationPercentage }}
