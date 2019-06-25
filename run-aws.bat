@@ -1,3 +1,4 @@
+Rem to start do actions from https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html
 Rem change cluster-name in aws-spec-template/alb-ingress-controller.yaml
 kubectl apply -f .\aws-scripts\aws-auth-cm.yaml
 aws eks --region eu-west-1 update-kubeconfig --name streamer-cluster
