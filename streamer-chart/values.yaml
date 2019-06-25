@@ -18,6 +18,7 @@ imageServiceVersion: latest
 apiGatewayVersion: latest
 filebeatVersion: 6.3.0
 metricbeatVersion: 6.3.0
+streamerClientVersion: latest
 
 hpaTargetCPUUtilizationPercentage: 85
 
@@ -25,7 +26,7 @@ hpaTargetCPUUtilizationPercentage: 85
 ingress:
   name: streamer-ingress
   version: 1.0.0
-  class: nginx
+  class: alb
   rewriteTarget: /
   host: localhost
 
@@ -79,11 +80,11 @@ elasticsearch:
   imagePullPolicy: IfNotPresent
   port: 9200
   memoryRequest: "256Mi"
-  memoryLimit: "512Mi"
+  memoryLimit: "1000Mi"
   cpuRequest: 100m
   cpuLimit: 400m
   mainMountPath: /usr/share/elasticsearch/data
-  requestStorage: 500Mi
+  requestStorage: 1000Mi
 
 kibana:
   name: kibana
@@ -147,10 +148,10 @@ prometheus:
   requestStorage: 500Mi
   mountPath: /prometheus
   configsPath: /E/tai/Streamer-Spring-Cloud-Config-Server/helm-chart/configs
-  configsMountPath: /etc/prometheus/
+  configsMountPath: /etc/prometheus/prometheus.yml
 
 configServer:
-  name: configServer
+  name: config-server
   imageName: config-server
   replicaCount: 1
   minReadySeconds: 15
@@ -162,24 +163,24 @@ configServer:
     initialDelaySeconds: 45
     periodSeconds: 10
     timeoutSeconds: 2
-    failureThreshold: 50
+    failureThreshold: 100
     successThreshold: 1
   livenessProbe:
     initialDelaySeconds: 45
     periodSeconds: 20
     timeoutSeconds: 2
-    failureThreshold: 50
+    failureThreshold: 100
     successThreshold: 1
   memoryRequest: "128Mi"
-  memoryLimit: "256Mi"
+  memoryLimit: "1000Mi"
   cpuRequest: 100m
-  cpuLimit: 200m
-  javaOpts: " -Xmx250m -Xms64m "
+  cpuLimit: 400m
+  javaOpts: " -Xmx500m -Xms64m "
   minReplicas: 1
   maxReplicas: 1
 
 authService:
-  name: authService
+  name: auth-service
   imageName: auth-service
   replicaCount: 1
   minReadySeconds: 15
@@ -200,15 +201,15 @@ authService:
     failureThreshold: 50
     successThreshold: 1
   memoryRequest: "128Mi"
-  memoryLimit: "256Mi"
+  memoryLimit: "1000Mi"
   cpuRequest: 100m
-  cpuLimit: 200m
-  javaOpts: " -Xmx250m -Xms64m "
+  cpuLimit: 700m
+  javaOpts: " -Xmx500m -Xms64m "
   minReplicas: 1
   maxReplicas: 5
 
 imageService:
-  name: imageService
+  name: image-service
   imageName: image-service
   replicaCount: 1
   minReadySeconds: 15
@@ -229,15 +230,15 @@ imageService:
     failureThreshold: 50
     successThreshold: 1
   memoryRequest: "256Mi"
-  memoryLimit: "512Mi"
+  memoryLimit: "1000Mi"
   cpuRequest: 100m
-  cpuLimit: 400m
+  cpuLimit: 700m
   javaOpts: " -Xmx512m -Xms64m "
   minReplicas: 1
   maxReplicas: 5
 
 apiGateway:
-  name: apiGateway
+  name: api-gateway
   imageName: api-gateway
   replicaCount: 1
   minReadySeconds: 15
@@ -258,10 +259,10 @@ apiGateway:
     failureThreshold: 50
     successThreshold: 1
   memoryRequest: "128Mi"
-  memoryLimit: "256Mi"
+  memoryLimit: "1000Mi"
   cpuRequest: 100m
-  cpuLimit: 200m
-  javaOpts: " -Xmx250m -Xms64m "
+  cpuLimit: 400m
+  javaOpts: " -Xmx550m -Xms64m "
   minReplicas: 1
   maxReplicas: 2
 
@@ -282,3 +283,29 @@ metricbeat:
   memoryLimit: "200Mi"
   cpuRequest: 100m
   cpuLimit: 200m
+
+streamerClient:
+  name: streamer-client
+  imageName: streamer-web-app
+  replicaCount: 1
+  minReadySeconds: 15
+  maxUnavailable: 1
+  maxSurge: 1
+  imagePullPolicy: IfNotPresent
+  port: 80
+  readinessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  livenessProbe:
+    initialDelaySeconds: 45
+    periodSeconds: 20
+    timeoutSeconds: 2
+    failureThreshold: 50
+    successThreshold: 1
+  memoryRequest: "64Mi"
+  memoryLimit: "128Mi"
+  cpuRequest: 50m
+  cpuLimit: 100m

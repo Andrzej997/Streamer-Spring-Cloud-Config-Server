@@ -1,4 +1,4 @@
-{{- $image := printf "docker.elastic.co/%s:%s" .Values.elasticsearch.imageName .Values.elasticsearchVersion -}}
+{{- $image := printf "docker.elastic.co/%s/%s:%s" .Values.elasticsearch.imageName .Values.elasticsearch.imageName .Values.elasticsearchVersion -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:

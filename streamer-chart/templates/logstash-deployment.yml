@@ -1,4 +1,4 @@
-{{- $image := printf "docker.elastic.co/%s:%s" .Values.logstash.imageName .Values.logstashVersion -}}
+{{- $image := printf "docker.elastic.co/%s/%s:%s" .Values.logstash.imageName .Values.logstash.imageName .Values.logstashVersion -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -35,11 +35,11 @@ spec:
               - key: logstash.yml
                 path: logstash.yml
         - name: logstash-pipeline-volume
-            configMap:
-              name: env
-              items:
-                - key: logstash.config
-                  path: logstash.config
+          configMap:
+            name: env
+            items:
+              - key: logstash.config
+                path: logstash.config
       containers:
         - name: {{ .Values.logstash.name }}
           image: {{ $image }}

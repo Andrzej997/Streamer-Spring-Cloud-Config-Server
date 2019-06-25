@@ -1,0 +1,58 @@
+{{- $image := printf "%s/%s:%s" .Values.dockerRegistry .Values.streamerClient.imageName .Values.streamerClientVersion -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.streamerClient.name }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.streamerClient.name }}
+    app.kubernetes.io/version: {{ .Values.streamerClientVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  replicas: {{ .Values.streamerClient.replicaCount }}
+  minReadySeconds: {{ .Values.streamerClient.minReadySeconds }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.streamerClient.maxUnavailable }}
+      maxSurge: {{ .Values.streamerClient.maxSurge }}
+  selector:
+    matchLabels:
+      component: {{ .Values.streamerClient.name }}
+  template:
+    metadata:
+      labels:
+        component: {{ .Values.streamerClient.name }}
+    spec:
+      containers:
+        - name: {{ .Values.streamerClient.name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ .Values.streamerClient.imagePullPolicy }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.streamerClient.port }}
+            initialDelaySeconds: {{ .Values.streamerClient.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.streamerClient.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.streamerClient.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.streamerClient.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.streamerClient.readinessProbe.successThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.streamerClient.port }}
+            initialDelaySeconds: {{ .Values.streamerClient.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.streamerClient.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.streamerClient.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.streamerClient.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.streamerClient.livenessProbe.successThreshold }}
+          resources:
+            requests:
+              memory: {{ .Values.streamerClient.memoryRequest }}
+              cpu: {{ .Values.streamerClient.cpuRequest }}
+            limits:
+              memory: {{ .Values.streamerClient.memoryLimit }}
+              cpu: {{ .Values.streamerClient.cpuLimit }}
+          ports:
+            - containerPort: {{ .Values.streamerClient.port }}

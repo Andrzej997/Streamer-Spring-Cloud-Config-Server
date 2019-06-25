@@ -50,10 +50,3 @@ spec:
               cpu: {{ .Values.usersdb.cpuLimit }}
           ports:
             - containerPort: {{ .Values.usersdb.port }}
-          volumeMounts:
-            - name: main-storage
-              mountPath: {{ .Values.usersdb.mainMountPath }}
-            - name: log-storage
-              mountPath: {{ .Values.usersdb.logsMountPath }}
-            - name: lib-storage
-              mountPath: {{ .Values.usersdb.libsMountPath }}

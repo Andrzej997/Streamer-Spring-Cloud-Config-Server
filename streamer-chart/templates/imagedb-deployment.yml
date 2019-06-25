@@ -50,10 +50,3 @@ spec:
               cpu: {{ .Values.imagedb.cpuLimit }}
           ports:
             - containerPort: {{ .Values.imagedb.port }}
-          volumeMounts:
-            - name: main-storage
-              mountPath: {{ .Values.imagedb.mainMountPath }}
-            - name: log-storage
-              mountPath: {{ .Values.imagedb.logsMountPath }}
-            - name: lib-storage
-              mountPath: {{ .Values.imagedb.libsMountPath }}

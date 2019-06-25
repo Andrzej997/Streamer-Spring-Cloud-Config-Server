@@ -1,0 +1,10 @@
+extraArgs:
+  base-role-arn: arn:aws:iam::444991868841:role/
+  default-role: kube2iam-default
+
+host:
+  iptables: true
+  interface: "eni+"
+
+rbac:
+  create: true

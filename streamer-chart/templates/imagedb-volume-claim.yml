@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.imagedb.mainRequestStorage }}
@@ -29,7 +29,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.imagedb.logsRequestStorage }}
@@ -47,7 +47,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.imagedb.libsRequestStorage }}

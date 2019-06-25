@@ -1,0 +1,88 @@
+# Application Load Balancer (ALB) Ingress Controller Deployment Manifest.
+# This manifest details sensible defaults for deploying an ALB Ingress Controller.
+# GitHub: https://github.com/kubernetes-sigs/aws-alb-ingress-controller
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: alb-ingress-controller
+  name: alb-ingress-controller
+  # Namespace the ALB Ingress Controller should run in. Does not impact which
+  # namespaces it's able to resolve ingress resource for. For limiting ingress
+  # namespace scope, see --watch-namespace.
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alb-ingress-controller
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        iam.amazonaws.com/role: arn:aws:iam::444991868841:role/aws-trust-role
+      creationTimestamp: null
+      labels:
+        app: alb-ingress-controller
+    spec:
+      containers:
+        - args:
+            # Limit the namespace where this ALB Ingress Controller deployment will
+            # resolve ingress resources. If left commented, all namespaces are used.
+            # - --watch-namespace=your-k8s-namespace
+
+            # Setting the ingress-class flag below ensures that only ingress resources with the
+            # annotation kubernetes.io/ingress.class: "alb" are respected by the controller. You may
+            # choose any class you'd like for this controller to respect.
+            - --ingress-class=alb
+
+            # Name of your cluster. Used when naming resources created
+            # by the ALB Ingress Controller, providing distinction between
+            # clusters.
+            - --cluster-name=streamer-cluster
+
+            # AWS VPC ID this ingress controller will use to create AWS resources.
+            # If unspecified, it will be discovered from ec2metadata.
+            # - --aws-vpc-id=vpc-xxxxxx
+
+            # AWS region this ingress controller will operate in. 
+            # If unspecified, it will be discovered from ec2metadata.
+            # List of regions: http://docs.aws.amazon.com/general/latest/gr/rande.html#vpc_region
+            - --aws-region=eu-west-1
+
+            # Enables logging on all outbound requests sent to the AWS API.
+            # If logging is desired, set to true.
+            #- ---aws-api-debug=true
+            # Maximum number of times to retry the aws calls.
+            # defaults to 10.
+            - --aws-max-retries=10
+          env:
+            # AWS key id for authenticating with the AWS API.
+            # This is only here for examples. It's recommended you instead use
+            # a project like kube2iam for granting access.
+            #- name: AWS_ACCESS_KEY_ID
+            #  value: ASIAWPG4VB6U6Y3KMLSS
+            
+            # AWS key secret for authenticating with the AWS API.
+            # This is only here for examples. It's recommended you instead use
+            # a project like kube2iam for granting access.
+            #- name: AWS_SECRET_ACCESS_KEY
+            #  value: Wh+QcfjNXEyKQ1rzwspyV3XLtplcQOt5SpjdbHGD
+            #- name: AWS_SESSION_TOKEN
+            #  value: AgoGb3JpZ2luEHYaCWV1LXdlc3QtMSKAAkLiyMorc1mSf86XWqP5qwUoiCWZhVJe4kmbNunutGFr/5xiDPlnpzcQEy/0cvS2Cxi/rjRstYTHdSc2ysat6wB3toBIlIkdGtvBiS6Rfnfc5U06JA1aDGYuWFXs8CsJknvaF43+8AHUn8D11XuPQT5S3GcPdfSAlttQZ5SpdGmjoU7NTcVEdCYRogWq7LNHnjvoHs920IDj8bZffz17R4MNNQijvpM7tE0WkO8RrG1n7yHZBBm0F14Ftcl9LvS08jMxFPibZQ9BsKBp2a6aYw3PhcauKy4VU/uRsstx6RijM21ybSLFMTCEzm0ztEjd9vUt7x4T426W6Tcb2a47DeEq0gIIWxAAGgw0NDQ5OTE4Njg4NDEiDDuCieQRIgHjHcgWgyqvAnVCfdSApsYzwFCTNK6DbUOPMu5o4KQl+gCSsWySy27qqkf5LHJdBjwWTqKHnl18WA/uIbfLd09R84zIsm4MkUh2RUz98QSFx8qvPenXcUdj0UR3kAPEjqlqKmbzHxQaNiDrAs0q3q4UbKbi+xp4ZLD4VVsW+oaPL4dterqimkqR7brve6Z69w5uaeJhQfDuhLxnBsfxhZGOK50HZpGPmChcpR6VwNnqL7YQ5repGW6QDwjSpX6R7FyXZoIk3Z4eqcBBq58LMUJOdcf/+vcULrbdTaJvv7/mO2mKplHPe2LUsHkW3DmvTRkMwq3OoxaSvv2/sPPpCt9cQ6NZMGNylEXNE9BFmzVMj8e3nPFuzXJ8BGNg+fslST2B1VH4UhRRSCH8WymI+Y9TEqVMHqwFfTCc8aLoBQ==
+          # Repository location of the ALB Ingress Controller.
+          image: 894847497797.dkr.ecr.us-west-2.amazonaws.com/aws-alb-ingress-controller:v1.0.0
+          imagePullPolicy: Always
+          name: server
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      serviceAccountName: alb-ingress
+      serviceAccount: alb-ingress

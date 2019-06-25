@@ -31,22 +31,6 @@ spec:
         - name: {{ .Values.configServer.name }}
           image: {{ $image }}
           imagePullPolicy: {{ .Values.configServer.imagePullPolicy }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.configServer.port }}
-            initialDelaySeconds: {{ .Values.configServer.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.configServer.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.configServer.readinessProbe.timeoutSeconds }}
-            failureThreshold: {{ .Values.configServer.readinessProbe.failureThreshold }}
-            successThreshold: {{ .Values.configServer.readinessProbe.successThreshold }}
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.configServer.port }}
-            initialDelaySeconds: {{ .Values.configServer.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.configServer.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.configServer.livenessProbe.timeoutSeconds }}
-            failureThreshold: {{ .Values.configServer.livenessProbe.failureThreshold }}
-            successThreshold: {{ .Values.configServer.livenessProbe.successThreshold }}
           resources:
             requests:
               memory: {{ .Values.configServer.memoryRequest }}

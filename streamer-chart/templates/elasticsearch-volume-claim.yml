@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: {{ .Values.elasticsearch.requestStorage }}

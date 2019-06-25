@@ -33,7 +33,11 @@ spec:
             claimName: prometheus-volume-claim
         - name: config-volume
           configMap:
+            defaultMode: 0777
             name: env
+            items:
+              - key: prometheus.yml
+                path: prometheus.yml
       containers:
         - name: {{ .Values.prometheus.name }}
           image: {{ $image }}

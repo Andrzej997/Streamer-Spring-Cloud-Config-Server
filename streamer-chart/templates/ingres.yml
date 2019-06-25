@@ -20,7 +20,11 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /
+          - path: /client
+            backend:
+              serviceName: {{ .Values.streamerClient.name }}
+              servicePort: {{ .Values.streamerClient.port }}
+          - path: /gateway
             backend:
               serviceName: {{ .Values.apiGateway.name }}
               servicePort: {{ .Values.apiGateway.port }}

@@ -1,4 +1,4 @@
-{{- $image := printf "docker.elastic.co/%s:%s" .Values.metricbeat.imageName .Values.metricbeatVersion -}}
+{{- $image := printf "docker.elastic.co/beats/%s:%s" .Values.metricbeat.imageName .Values.metricbeatVersion -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -83,7 +83,7 @@ spec:
             - name: ELASTICSEARCH_HOST
               value: {{ .Values.elasticsearch.name }}
             - name: ELASTICSEARCH_PORT
-              value: {{ .Values.elasticsearch.port }}
+              value: "9200"
             - name: ELASTICSEARCH_USERNAME
               valueFrom:
                 configMapKeyRef:
@@ -94,10 +94,6 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: ELASTICSEARCH_PASSWORD
-            - name: ELASTIC_CLOUD_ID
-              value:
-            - name: ELASTIC_CLOUD_AUTH
-              value:
             - name: POD_NAMESPACE
               value: default
           securityContext:
@@ -208,7 +204,7 @@ spec:
             - name: ELASTICSEARCH_HOST
               value: {{ .Values.elasticsearch.name }}
             - name: ELASTICSEARCH_PORT
-              value: {{ .Values.elasticsearch.port }}
+              value: "9200"
             - name: ELASTICSEARCH_USERNAME
               valueFrom:
                 configMapKeyRef:
@@ -219,10 +215,6 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: ELASTICSEARCH_PASSWORD
-            - name: ELASTIC_CLOUD_ID
-              value:
-            - name: ELASTIC_CLOUD_AUTH
-              value:
             - name: POD_NAMESPACE
               value: default
           securityContext:
@@ -259,6 +251,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.metricbeat.name }}
+    namespace: default
 roleRef:
   kind: ClusterRole
   name: {{ .Values.metricbeat.name }}

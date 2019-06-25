@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.grafana.requestStorage }}

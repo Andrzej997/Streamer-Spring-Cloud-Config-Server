@@ -1,4 +1,4 @@
-{{- $image := printf "docker.elastic.co/%s:%s" .Values.kibana.imageName .Values.kibanaVersion -}}
+{{- $image := printf "docker.elastic.co/%s/%s:%s" .Values.kibana.imageName .Values.kibana.imageName .Values.kibanaVersion -}}
 {{- $elasticUrl := printf "http://%s:%s" .Values.elasticsearch.name .Values.elasticsearch.port -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
