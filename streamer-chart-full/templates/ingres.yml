@@ -22,8 +22,8 @@ spec:
         paths:
           - path: /gateway/?(.*)
             backend:
-              serviceName: {{ .Values.imageService.name }}
-              servicePort: {{ .Values.imageService.port }}
+              serviceName: {{ .Values.apiGateway.name }}
+              servicePort: {{ .Values.apiGateway.port }}
           - path: /kibana/?(.*)
             backend:
               serviceName: {{ .Values.kibana.name }}

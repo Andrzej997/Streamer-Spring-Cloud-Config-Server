@@ -10,6 +10,9 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: {{ .Values.enviroment }}
     app.kubernetes.io/managed-by: helm
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: '/actuator/prometheus'
+    prometheus.io/port: '{{ .Values.imageService.port }}'
 
 spec:
   replicas: {{ .Values.imageService.replicaCount }}
@@ -26,20 +29,14 @@ spec:
     metadata:
       labels:
         component: {{ .Values.imageService.name }}
-      annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/path: '/actuator/prometheus'
         prometheus.io/port: '{{ .Values.imageService.port }}'
     spec:
       containers:
         - name: {{ .Values.imageService.name }}
           image: {{ $image }}
           imagePullPolicy: {{ .Values.imageService.imagePullPolicy }}
-          resources:
-            requests:
-              cpu: {{ .Values.imageService.cpuRequest }}
-            limits:
-              cpu: {{ .Values.imageService.cpuLimit }}
           readinessProbe:
             tcpSocket:
               port: {{ .Values.imageService.port }}

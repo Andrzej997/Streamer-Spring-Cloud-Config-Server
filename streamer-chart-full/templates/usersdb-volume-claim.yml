@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usersdb-main-volume-claim
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.usersdb.name }}
+    app.kubernetes.io/version: {{ .Values.usersdbVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.usersdb.mainRequestStorage }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usersdb-logs-volume-claim
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.usersdb.name }}
+    app.kubernetes.io/version: {{ .Values.usersdbVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.usersdb.logsRequestStorage }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usersdb-libs-volume-claim
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.usersdb.name }}
+    app.kubernetes.io/version: {{ .Values.usersdbVersion }}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.usersdb.libsRequestStorage }}

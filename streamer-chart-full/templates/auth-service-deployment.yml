@@ -59,6 +59,8 @@ spec:
           env:
             - name: JAVA_OPTS
               value: {{ .Values.authService.javaOpts }}
+            - name: JVM_OPTS
+              value: {{ .Values.authService.javaOpts }}
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 configMapKeyRef:

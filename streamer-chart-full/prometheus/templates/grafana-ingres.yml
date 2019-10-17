@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.ingress.namespace }}
+  labels:
+    enviroment: {{ .Values.enviroment }}
+    app.kubernetes.io/name: {{ .Values.ingress.name }}
+    app.kubernetes.io/version: {{ .Values.ingress.version }}
+    app.kubernetes.io/component: {{ .Values.enviroment }}
+    app.kubernetes.io/part-of: {{ .Values.enviroment }}
+    app.kubernetes.io/managed-by: helm
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: {{ .Values.ingress.subnets }}
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "k8sServiceId"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    alb.ingress.kubernetes.io/scheme: {{ .Values.ingress.scheme }}
+spec:
+  rules:
+    - http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            backend:
+              serviceName: {{ .Values.ingress.serviceName }}
+              servicePort: {{ .Values.ingress.servicePort }}
+

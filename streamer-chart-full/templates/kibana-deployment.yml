@@ -49,5 +49,5 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: XPACK_SECURITY_ENABLED
-            - name: ELASTICSEARCH_URL
-              value: {{ $elasticUrl }}
+            - name: ELASTICSEARCH_HOSTS
+              value: "http://elasticsearch:9200"

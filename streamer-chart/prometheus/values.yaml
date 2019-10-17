@@ -1,0 +1,25 @@
+# Default values for prometheus-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+enviroment: edm
+release: prometheus-operator
+
+ingress:
+  name: grafana-ingress
+  namespace: default
+  version: 1.0.0
+  class: nginx
+  subnets: subnet-824d0cca,subnet-b7d360ed,subnet-e68ef880
+  scheme: internet-facing
+  path: /grafana/*
+  serviceName: prometheus-operator-grafana
+  servicePort: 80
+
+streamerServiceMonitor:
+  name: streamer-service-monitor
+  matchName: image-service
+  matchNamespace: default
+  port: http
+  interval: 1s
+  path: '/actuator/prometheus'

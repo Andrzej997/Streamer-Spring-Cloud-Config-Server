@@ -20,7 +20,7 @@ filebeatVersion: 7.2.0
 metricbeatVersion: 7.2.0
 streamerClientVersion: latest
 
-hpaTargetCPUUtilizationPercentage: 66
+hpaTargetCPUUtilizationPercentage: 85
 
 #ingress load-balancer section
 ingress:
@@ -142,9 +142,9 @@ prometheus:
   imagePullPolicy: IfNotPresent
   port: 9090
   memoryRequest: "256Mi"
-  memoryLimit: "1024Mi"
+  memoryLimit: "512Mi"
   cpuRequest: 100m
-  cpuLimit: 1000m
+  cpuLimit: 200m
   requestStorage: 500Mi
   mountPath: /prometheus
   configsPath: /E/tai/Streamer-Spring-Cloud-Config-Server/helm-chart/configs
@@ -215,7 +215,7 @@ imageService:
   minReadySeconds: 15
   maxUnavailable: 1
   maxSurge: 1
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   port: 9004
   readinessProbe:
     initialDelaySeconds: 45
@@ -229,10 +229,10 @@ imageService:
     timeoutSeconds: 2
     failureThreshold: 50
     successThreshold: 1
-  memoryRequest: "1572Mi"
+  memoryRequest: "256Mi"
   memoryLimit: "1572Mi"
-  cpuRequest: 1000m
-  cpuLimit: 1000m
+  cpuRequest: 100m
+  cpuLimit: 400m
   javaOpts: " -Xmx1024m -Xms128m"
   minReplicas: 1
   maxReplicas: 5
